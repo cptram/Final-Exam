@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex, nofollow"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta property="og:title" content="RAM Space Industries — Academy"/>
+<meta property="og:description" content="Cadet to Graduate Final Exam — Login Required"/>
+<title>RAM Space Industries — Cadet to Graduate Final Exam</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:#04070f;--bg2:#060c18;--bg3:#091220;
+    --div:#9060ff;--div-d:rgba(144,96,255,0.12);
+    --cyan:#00c8ff;--amber:#c8960a;--red:#e84040;--green:#1fc8a0;--purple:#9060ff;
+    --white:#e8f4ff;--text2:#8ab8d8;--text3:#4a7aaa;--text4:#2a4a6a;
+    --mono:"Share Tech Mono","Courier New",monospace;
+    --display:"Barlow Condensed","Arial Narrow",sans-serif;
+    --border:rgba(0,200,255,0.15);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--white);font-family:var(--mono);min-height:100vh;
+    background-image:linear-gradient(rgba(0,180,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,255,0.03) 1px,transparent 1px);
+    background-size:50px 50px;}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(4,7,15,0.97);backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:58px;}
+  .nav-logo{font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:0.15em;color:var(--white);text-transform:uppercase;}
+  .nav-logo span{color:var(--div);}
+  .nav-tag{font-size:9px;letter-spacing:0.2em;color:var(--div);border:1px solid rgba(144,96,255,0.4);padding:3px 10px;text-transform:uppercase;}
+  .container{max-width:860px;margin:0 auto;padding:100px 40px 80px;}
+
+  /* HEADER */
+  .exam-header{border-bottom:1px solid var(--border);padding-bottom:32px;margin-bottom:40px;}
+  .exam-tag{font-size:10px;letter-spacing:0.25em;color:var(--div);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:12px;}
+  .exam-tag::before{content:"";display:block;width:24px;height:1px;background:var(--div);}
+  .exam-title{font-family:var(--display);font-size:clamp(32px,5vw,56px);font-weight:700;text-transform:uppercase;line-height:0.95;margin-bottom:16px;}
+  .exam-title em{font-style:normal;color:var(--div);}
+  .exam-sub{font-size:13px;color:var(--text2);line-height:1.8;max-width:600px;}
+
+  /* INFO GRID */
+  .info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:40px;}
+  .info-card{background:var(--bg2);border:1px solid var(--border);padding:14px;}
+  .info-label{font-size:8px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;margin-bottom:5px;}
+  .info-value{font-family:var(--display);font-size:20px;font-weight:700;color:var(--div);}
+
+  /* PHASE INDICATOR */
+  .phase-bar{display:flex;gap:2px;margin-bottom:32px;}
+  .phase-block{flex:1;padding:12px;text-align:center;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;border:1px solid;}
+  .phase-block.active{background:var(--div-d);border-color:var(--div);color:var(--div);}
+  .phase-block.done{background:rgba(31,200,160,0.1);border-color:rgba(31,200,160,0.3);color:var(--green);}
+  .phase-block.pending{background:transparent;border-color:var(--text4);color:var(--text4);}
+
+  /* GATE */
+  #gate{background:var(--bg2);border:1px solid var(--border);padding:40px;margin-bottom:40px;}
+  .gate-title{font-family:var(--display);font-size:26px;font-weight:700;text-transform:uppercase;margin-bottom:8px;}
+  .gate-sub{font-size:12px;color:var(--text2);margin-bottom:24px;line-height:1.7;}
+  .warning-box{background:rgba(144,96,255,0.08);border:1px solid rgba(144,96,255,0.3);border-left:3px solid var(--purple);padding:14px 16px;margin-bottom:20px;}
+  .warning-text{font-size:11px;color:var(--text2);line-height:1.9;}
+  .inp{width:100%;background:rgba(0,200,255,0.04);border:1px solid var(--border);color:var(--white);
+    font-family:var(--mono);font-size:13px;padding:12px 16px;outline:none;transition:border-color 0.2s;margin-bottom:12px;}
+  .inp:focus{border-color:var(--div);}
+  .inp::placeholder{color:var(--text4);}
+  .btn-start{width:100%;background:var(--div);color:var(--white);border:none;
+    font-family:var(--mono);font-size:12px;letter-spacing:0.15em;text-transform:uppercase;
+    padding:14px;cursor:pointer;font-weight:700;}
+  .btn-start:hover{background:#a070ff;}
+  .btn-start:disabled{background:var(--text4);cursor:not-allowed;}
+
+  /* PART TRANSITION */
+  #part-transition{display:none;background:var(--bg2);border:1px solid rgba(31,200,160,0.3);padding:48px 40px;text-align:center;margin-bottom:40px;}
+  .pt-icon{font-size:48px;margin-bottom:20px;display:block;}
+  .pt-title{font-family:var(--display);font-size:36px;font-weight:700;text-transform:uppercase;color:var(--green);margin-bottom:12px;}
+  .pt-sub{font-size:13px;color:var(--text2);line-height:1.8;max-width:500px;margin:0 auto 24px;}
+  .div-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:20px 0;}
+  .div-card{background:var(--bg3);border:2px solid var(--text4);padding:14px;cursor:pointer;transition:all 0.15s;text-align:center;}
+  .div-card:hover{border-color:var(--div);}
+  .div-card.selected{border-color:var(--div);background:var(--div-d);}
+  .div-card.selected .div-name{color:var(--div);}
+  .div-icon{margin-bottom:6px;}
+  .div-name{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text2);}
+  .btn-begin-div{background:var(--div);color:var(--white);border:none;font-family:var(--mono);
+    font-size:12px;letter-spacing:0.15em;text-transform:uppercase;padding:13px 32px;cursor:pointer;font-weight:700;margin-top:8px;}
+  .btn-begin-div:disabled{background:var(--text4);cursor:not-allowed;}
+
+  /* PROGRESS */
+  #progress-wrap{display:none;margin-bottom:32px;}
+  .progress-label{display:flex;justify-content:space-between;font-size:10px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;margin-bottom:8px;}
+  .progress-track{height:2px;background:var(--bg3);}
+  .progress-fill{height:100%;background:var(--div);transition:width 0.4s ease;width:0%;}
+
+  /* QUESTIONS */
+  #exam{display:none;}
+  .question-block{background:var(--bg2);border:1px solid var(--border);padding:32px;display:none;}
+  .question-block.active{display:block;}
+  .q-number{font-size:9px;letter-spacing:0.25em;color:var(--text3);text-transform:uppercase;margin-bottom:12px;}
+  .q-type-tag{display:inline-block;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:2px 8px;margin-bottom:16px;border:1px solid;}
+  .q-type-tag.mc{color:var(--div);border-color:var(--div);opacity:0.8;}
+  .q-type-tag.gk{color:var(--amber);border-color:var(--amber);opacity:0.8;}
+  .q-type-tag.sc{color:var(--green);border-color:var(--green);opacity:0.8;}
+  .q-text{font-family:var(--display);font-size:20px;font-weight:600;line-height:1.3;margin-bottom:24px;color:var(--white);}
+  .q-scenario{background:var(--bg3);border-left:2px solid var(--green);padding:14px 16px;font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:20px;}
+  .options{display:flex;flex-direction:column;gap:6px;}
+  .option{display:flex;align-items:center;gap:14px;background:var(--bg3);border:1px solid var(--text4);padding:14px 16px;cursor:pointer;transition:all 0.15s;}
+  .option:hover,.option.selected{border-color:var(--div);background:var(--div-d);}
+  .option-letter{font-size:11px;letter-spacing:0.15em;color:var(--text3);min-width:20px;}
+  .option.selected .option-letter{color:var(--div);}
+  .option-text{font-size:13px;line-height:1.6;color:var(--text2);}
+  .option.selected .option-text{color:var(--white);}
+  .scenario-textarea{width:100%;background:rgba(0,200,255,0.04);border:1px solid var(--border);color:var(--white);
+    font-family:var(--mono);font-size:13px;padding:14px 16px;outline:none;resize:vertical;min-height:180px;line-height:1.8;}
+  .scenario-textarea:focus{border-color:var(--div);}
+  .char-count{font-size:10px;color:var(--text3);text-align:right;margin-top:6px;}
+  .q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--border);}
+  .btn-nav{background:transparent;color:var(--text3);border:1px solid var(--text4);font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:10px 24px;cursor:pointer;}
+  .btn-nav:hover{border-color:var(--div);color:var(--div);}
+  .btn-nav:disabled{opacity:0.3;cursor:not-allowed;}
+  .btn-next{background:var(--div);color:var(--white);border:none;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:10px 28px;cursor:pointer;font-weight:700;}
+  .btn-next:disabled{background:var(--text4);cursor:not-allowed;}
+  .q-counter{font-size:10px;color:var(--text3);letter-spacing:0.1em;}
+
+  /* REVIEW */
+  #review{display:none;}
+  .review-header{background:var(--bg2);border:1px solid var(--border);padding:32px;margin-bottom:4px;}
+  .review-title{font-family:var(--display);font-size:32px;font-weight:700;text-transform:uppercase;margin-bottom:8px;}
+  .review-sub{font-size:13px;color:var(--text2);line-height:1.8;}
+  .review-item{background:var(--bg2);border:1px solid var(--border);padding:22px;margin-bottom:4px;}
+  .review-q{font-size:11px;color:var(--text3);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;}
+  .review-question{font-size:14px;color:var(--white);margin-bottom:10px;line-height:1.5;}
+  .review-answer{font-size:13px;color:var(--div);padding:10px 14px;background:var(--div-d);border-left:2px solid var(--div);}
+  .review-answer.sc-ans{color:var(--green);background:rgba(31,200,160,0.08);border-left-color:var(--green);}
+  .btn-submit{width:100%;background:var(--purple);color:var(--white);border:none;font-family:var(--mono);font-size:13px;letter-spacing:0.15em;text-transform:uppercase;padding:16px;cursor:pointer;font-weight:700;margin-top:4px;}
+  .btn-submit:disabled{background:var(--text4);cursor:not-allowed;}
+
+  /* SUBMITTED */
+  #submitted{display:none;}
+  .submitted-box{background:var(--bg2);border:1px solid rgba(144,96,255,0.35);padding:48px 40px;text-align:center;}
+  .submitted-icon{font-size:48px;margin-bottom:20px;display:block;}
+  .submitted-title{font-family:var(--display);font-size:40px;font-weight:700;text-transform:uppercase;color:var(--purple);margin-bottom:12px;}
+  .submitted-sub{font-size:14px;color:var(--text2);line-height:1.8;max-width:500px;margin:0 auto;}
+
+  /* ADMIN */
+  .admin-title{font-family:var(--display);font-size:26px;font-weight:700;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+  .admin-sub{font-size:12px;color:var(--text3);margin-bottom:20px;}
+  .btn-admin-login{background:var(--red);color:var(--white);border:none;font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:12px 20px;cursor:pointer;}
+  .submission-card{background:var(--bg2);border:1px solid var(--border);padding:20px;margin-bottom:4px;transition:opacity 0.4s;}
+  .pass{color:var(--green);} .review-score{color:var(--amber);}
+  .correct{color:var(--green);} .wrong{color:var(--red);} .scenario-ans{color:var(--amber);font-style:italic;}
+  .btn-promote{background:var(--purple);color:var(--white);border:none;font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;padding:6px 16px;cursor:pointer;margin-top:10px;}
+
+  footer{margin-top:80px;padding:28px 40px;border-top:1px solid var(--border);font-size:10px;color:var(--text4);letter-spacing:0.15em;text-transform:uppercase;text-align:center;}
+  @media(max-width:600px){.container{padding:90px 20px 60px;}nav{padding:0 20px;}.info-grid{grid-template-columns:1fr 1fr;}.div-grid{grid-template-columns:1fr 1fr;}.phase-bar{flex-direction:column;}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">RAM<span> Space Industries</span></div>
+  <div class="nav-tag" id="nav-tag">&#11041; Cadet &#8594; Graduate · Final Exam</div>
+</nav>
+<div class="container">
+  <div class="exam-header">
+    <div class="exam-tag">Second Fleet Academy · Final Examination</div>
+    <h1 class="exam-title">Cadet <em>&#8594;</em> Graduate<br><em>Final</em> Exam</h1>
+    <p class="exam-sub">This is the final Academy examination. It is the hardest exam in the system. It tests leadership, judgement, decision-making under pressure, and your readiness to serve as a full member of RAM Space Industries. Two parts — general then division. Complete both honestly and thoroughly.</p>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card"><div class="info-label">Total Questions</div><div class="info-value">27</div></div>
+    <div class="info-card"><div class="info-label">Part 1</div><div class="info-value" style="font-size:14px;">General · 20Q</div></div>
+    <div class="info-card"><div class="info-label">Part 2</div><div class="info-value" style="font-size:14px;">Division · 7Q</div></div>
+    <div class="info-card"><div class="info-label">Log ID</div><div class="info-value" style="font-size:10px;">RHL-ACM-2956-C2G</div></div>
+  </div>
+
+  <div class="phase-bar">
+    <div class="phase-block active" id="phase-1">Part 1 · General Exam</div>
+    <div class="phase-block pending" id="phase-2">Part 2 · Division Exam</div>
+    <div class="phase-block pending" id="phase-sub">Submitted</div>
+  </div>
+
+  <!-- GATE -->
+  <div id="gate">
+    <div class="gate-title">Final Examination</div>
+    <div class="gate-sub">Enter your callsign to begin. This exam has two parts. You will complete the general exam first, then select your division for the division-specific section. Both must be submitted together.</div>
+    <div class="warning-box">
+      <div class="warning-text">
+        &#11041; This is the final exam before graduation. Your answers will be read carefully by the Admiral.
+        Answer every scenario honestly and in full. Rushed or shallow answers will not pass.
+        The minimum response length for scenarios is longer than previous exams.
+        Take your time.
+      </div>
+    </div>
+    <input class="inp" id="cs-inp" placeholder="Enter callsign..." maxlength="30" oninput="this.value=this.value.toUpperCase();checkGate()"/>
+    <button class="btn-start" id="btn-start" onclick="startExam()" disabled>Begin Final Examination &#8594;</button>
+  </div>
+
+  <!-- PART TRANSITION (between general and division) -->
+  <div id="part-transition">
+    <span class="pt-icon">&#11041;</span>
+    <div class="pt-title">Part 1 Complete</div>
+    <p class="pt-sub">General exam submitted. Now select your primary division for Part 2 — the division-specific section. Your division questions will load based on your selection.</p>
+    <div class="div-grid" id="div-grid-select">
+      <div class="div-card" onclick="selectDiv(this,'VANGUARD')"><div class="div-icon" id="icon-VANGUARD"></div><div class="div-name">VANGUARD</div></div>
+      <div class="div-card" onclick="selectDiv(this,'HAUL')"><div class="div-icon" id="icon-HAUL"></div><div class="div-name">HAUL</div></div>
+      <div class="div-card" onclick="selectDiv(this,'CORE')"><div class="div-icon" id="icon-CORE"></div><div class="div-name">CORE</div></div>
+      <div class="div-card" onclick="selectDiv(this,'CLAIM')"><div class="div-icon" id="icon-CLAIM"></div><div class="div-name">CLAIM</div></div>
+      <div class="div-card" onclick="selectDiv(this,'PULSE')"><div class="div-icon" id="icon-PULSE"></div><div class="div-name">PULSE</div></div>
+      <div class="div-card" onclick="selectDiv(this,'HORIZON')"><div class="div-icon" id="icon-HORIZON"></div><div class="div-name">HORIZON</div></div>
+    </div>
+    <button class="btn-begin-div" id="btn-begin-div" onclick="startDivExam()" disabled>Begin Division Exam &#8594;</button>
+  </div>
+
+  <!-- PROGRESS -->
+  <div id="progress-wrap">
+    <div class="progress-label"><span id="prog-lbl">Question 1</span><span id="prog-pct">0%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+  <div id="exam"></div>
+  <div id="review"></div>
+
+  <!-- SUBMITTED -->
+  <div id="submitted">
+    <div class="submitted-box">
+      <span class="submitted-icon">&#11041;</span>
+      <div class="submitted-title">Final Exam Submitted</div>
+      <p class="submitted-sub">Both parts of your Cadet to Graduate final examination have been submitted to the Admiral for review. This is the last step before graduation. You will be notified via Discord. Stand by.</p>
+      <div style="margin-top:20px;font-size:11px;color:var(--text3);letter-spacing:0.15em;" id="sub-id"></div>
+    </div>
+  </div>
+
+  <div id="admin-wrap"></div>
+</div>
+<footer>RAM Space Industries &#xB7; Second Fleet Academy &#xB7; RHL-ACM-2956-C2G &#xB7; Founded in the Verse</footer>
+
+<script>
+const FS='https://firestore.googleapis.com/v1/projects/ramsorg-e0c22/databases/(default)/documents';
+async function fsAdd(col,data){const r=await fetch(FS+'/'+col,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:toFS(data)})});const j=await r.json();if(!r.ok)throw new Error(j.error?.message||'fail');return j.name.split('/').pop();}
+async function fsGet(col){const r=await fetch(FS+'/'+col+'?pageSize=200');const j=await r.json();if(!r.ok)throw new Error(j.error?.message||'fail');return(j.documents||[]).map(d=>({id:d.name.split('/').pop(),...fromFS(d.fields)}));}
+async function fsPatch(col,id,data){const keys=Object.keys(data);const url=FS+'/'+col+'/'+id+'?'+keys.map(k=>'updateMask.fieldPaths='+k).join('&');const r=await fetch(url,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:toFS(data)})});return r.ok;}
+function toFS(o){const f={};for(const[k,v]of Object.entries(o))f[k]=toFSV(v);return f;}
+function toFSV(v){if(v===null||v===undefined)return{nullValue:null};if(typeof v==='boolean')return{booleanValue:v};if(typeof v==='number')return Number.isInteger(v)?{integerValue:String(v)}:{doubleValue:v};if(typeof v==='string')return{stringValue:v};if(Array.isArray(v))return{arrayValue:{values:v.map(toFSV)}};if(typeof v==='object')return{mapValue:{fields:toFS(v)}};return{stringValue:String(v)};}
+function fromFS(f){if(!f)return{};const o={};for(const[k,v]of Object.entries(f))o[k]=fromFSV(v);return o;}
+function fromFSV(v){if('nullValue'in v)return null;if('booleanValue'in v)return v.booleanValue;if('integerValue'in v)return parseInt(v.integerValue);if('doubleValue'in v)return v.doubleValue;if('stringValue'in v)return v.stringValue;if('arrayValue'in v)return(v.arrayValue.values||[]).map(fromFSV);if('mapValue'in v)return fromFS(v.mapValue.fields||{});return null;}
+
+const GEN_QUESTIONS=[{"id": 1, "type": "mc", "text": "You are a Cadet in your final week of Academy training. Your Instructor is absent and a live op is running short on experienced crew. The Fleet Captain asks you to fill a Corporal-level department lead role for the op. What do you do?", "options": ["Accept immediately — great opportunity", "Decline — you are not ranked for it", "Accept but inform the Fleet Captain clearly that you are a Cadet stepping in, not a ranked Corporal — then perform to the best of your ability", "Ask other Cadets what they would do"], "correct": 2}, {"id": 2, "type": "mc", "text": "As a Cadet you witness a Sergeant give an order during an op that you know from your training is tactically wrong and could result in crew casualties. The op is still active. What is the correct action?", "options": ["Override the Sergeant — you know better", "Say nothing — you are a Cadet", "Request a quick word with the Sergeant privately on comms — flag your concern once, clearly, then follow their decision", "Post about it in Discord mid-op"], "correct": 2}, {"id": 3, "type": "mc", "text": "Your Instructor tells you that you are ready to graduate. You genuinely do not feel ready — you made a significant error in your last op and do not fully trust your own judgement yet. What do you do?", "options": ["Accept — the Instructor knows best", "Tell the Instructor honestly that you do not feel ready and explain why — request more time", "Graduate and hope for the best", "Ask other Cadets if they think you are ready"], "correct": 1}, {"id": 4, "type": "gk", "text": "In Star Citizen 4.8, what is the single most important thing an engineer must do before venting a compartment to suppress a fire or deny oxygen to boarders?", "options": ["Check heat levels first", "Confirm with the Captain", "Confirm no friendly crew are inside the compartment", "Save all power to shields first"], "correct": 2}, {"id": 5, "type": "gk", "text": "In Star Citizen 4.8, a ship's relay fuse has blown cutting power to the medical bay. Three casualties are in treatment. What is the correct priority?", "options": ["Repair weapons first — the fight comes first", "Replace the relay fuse immediately — restoring power to medical bay is life-critical", "Vent the medical bay to reset the system", "Report to the Captain and wait for orders"], "correct": 1}, {"id": 6, "type": "scenario", "text": "You are on your final evaluated op as a Cadet. Your Instructor is watching. Mid-op the Fleet Captain makes a decision that you believe puts the industrial element at serious risk — pulling VANGUARD escort from the mining ships to reinforce the combat line.", "scenario": "The mining ships are now exposed. CLAIM is still extracting. You are crewing one of the mining ships as a Cadet. Walk through every decision you make — do you continue mining, call it yourself, contact someone, or something else? What do you say, to whom, and in what order?"}, {"id": 7, "type": "scenario", "text": "Your Instructor pulls you aside after an op and tells you that despite your strong technical knowledge your communication on comms during ops is poor — you give too much information at the wrong times and it is cluttering the channel for senior crew.", "scenario": "This is hard feedback to hear. Walk through how you respond in the moment, what you say to your Instructor, and what specific changes you would make to your comms behaviour going forward. Be concrete."}, {"id": 8, "type": "scenario", "text": "You are three days from graduation. A fellow Cadet who is your closest friend in the Academy confides in you that they have been copying answers from another member's exam submissions and submitting them as their own.", "scenario": "They ask you not to tell anyone. Walk through exactly what you do — what you say to your friend, what you do with the information, who you speak to, and how you balance loyalty against your responsibility to the org."}, {"id": 9, "type": "scenario", "text": "During a Gamma fleet op you are crewing a position on the flagship as a Cadet observer. The Fleet Commander goes offline mid-op — connection issue — and no one has stepped up to command. The Strike Leader is focused on the squadron. Two Captains are arguing over comms about what to do next.", "scenario": "You are a Cadet. You have no authority. But the fleet is drifting and the industrial element is exposed. Walk through every decision — what you observe, what if anything you say, who you contact, and what you do not do."}, {"id": 10, "type": "scenario", "text": "You graduate tomorrow. Your Instructor asks you to write a short honest assessment of what you learned in the Academy, what you still need to improve, and what kind of member you intend to be in RAM Space Industries.", "scenario": "Write it. Be specific about your strengths and honest about your weaknesses. This is not a performance — write it as if your Instructor will read it and hold you to it."}, {"id": 11, "type": "scenario", "text": "You have just completed the Academy and are days away from becoming a Private. A brand new Recruit joins the Academy and is assigned to you informally as a buddy — not as your student, just someone to show around.", "scenario": "Walk through what you tell them in your first conversation — about the org, the Academy, what to expect, what matters, and what mistakes to avoid. Write it as if you are actually speaking to them."}, {"id": 12, "type": "scenario", "text": "Your division lead asks you — still technically a Cadet in your final days — to write a short after-action report for an op you attended. You have never written one before and no template was given.", "scenario": "Write the after-action report for a fictional op of your choice. Include what the op was, what happened, what went well, what went wrong, and what you would change next time. Format it as an official RAM document."}, {"id": 13, "type": "scenario", "text": "You are on a live op as a Cadet observer when you notice that the Corporal leading your department section is giving incorrect information to the Sergeant — they appear to be confused about the status of a system and their error could affect the op outcome.", "scenario": "You are a Cadet. The Corporal outranks you significantly. Walk through exactly what you do — do you speak up, stay silent, find another way, or something else? What are the risks of each choice?"}, {"id": 14, "type": "scenario", "text": "After an op a Private approaches you — knowing you are almost a Graduate — and asks for your honest advice on whether they should try to move up to Corporal. They are technically competent but you have personally observed them struggle with staying calm under pressure and following comms discipline.", "scenario": "You are still a Cadet. Walk through your response. Do you give honest feedback, encourage them, redirect them, or something else? What do you actually say?"}, {"id": 15, "type": "scenario", "text": "You are sitting your Cadet to Graduate exam. One of the scenario questions asks about a situation you have actually experienced in a live op — but your honest answer about what you actually did is different from what the correct answer should have been.", "scenario": "Do you answer with what you actually did, what you should have done, or both? Walk through your reasoning. There is no trick here — this question is testing your honesty and self-awareness as much as your knowledge."}, {"id": 16, "type": "scenario", "text": "You graduate today. The Admiral promotes you to Private in front of the org. In your first week as a Private you realise the Academy did not fully prepare you for one specific aspect of your division's day-to-day operations.", "scenario": "Identify what that gap might be for your division. How do you address it — do you seek help, practice independently, ask your Corporal, or something else? Walk through how a good Private handles not knowing something."}, {"id": 17, "type": "scenario", "text": "During your final Academy op your Instructor gives you a task that you believe is outside what a Cadet should be doing — it crosses into territory normally handled by a Private or even a Corporal.", "scenario": "Walk through how you handle this. Do you do it, question it, ask for clarification, or refuse? What factors influence your decision and what do you say to your Instructor?"}, {"id": 18, "type": "scenario", "text": "You have been in the Academy for longer than any other current Cadet — not because you are performing poorly, but because real life has kept you from attending ops regularly. You are technically ready but lack the op attendance hours.", "scenario": "Your Instructor recommends you graduate anyway based on your knowledge and attitude. The Admiral is reviewing your file. Make the case for your own graduation — and acknowledge the legitimate concern about your attendance honestly."}, {"id": 19, "type": "scenario", "text": "A fellow Cadet asks you what the difference is between following orders and thinking for yourself in RAM Space Industries — they are genuinely confused about when to use their own judgement and when to just do what they are told.", "scenario": "Explain it to them. Use real examples from what you have learned in the Academy. Be honest about where the line is and where it is not always clear."}, {"id": 20, "type": "scenario", "text": "You are about to submit this exam. You have answered all 20 questions. Before you press submit, your Instructor sends you a message saying they have heard great things about your performance in the Academy and they are proud of how far you have come.", "scenario": "Write your response to your Instructor. Not a performance — a genuine response. What do you say? What do you still want to work on? What does graduating from this Academy mean to you in the context of RAM Space Industries?"}];
+const DIV_QUESTIONS={"VANGUARD": [{"id": 1, "type": "mc", "text": "You are now a Graduate about to become a Private in VANGUARD. Your first live op as a full member is a Beta fleet op. The Fleet Captain assigns you to wing position on the flagship escort. What is your primary responsibility?", "options": ["Stay close to the flagship and protect it at all costs — never break escort without direct FC order", "Pursue any hostile you spot aggressively", "Hold back and watch how others fly first", "Request a more active combat role"], "correct": 0}, {"id": 2, "type": "gk", "text": "In Star Citizen 4.8, what does a distortion weapon do to an enemy ship compared to a ballistic weapon?", "options": ["More hull damage but less shield damage", "Drains shield energy and can disable or scramble ship systems — less hull damage than ballistics", "Identical effect to ballistics but with longer range", "Only effective against unshielded targets"], "correct": 1}, {"id": 3, "type": "scenario", "text": "It is your first op as a RAM Private in VANGUARD. You are in wing position escorting the flagship. A hostile breaks through the combat line and is heading directly for the flagship. Your squad lead has not called it yet.", "scenario": "Do you break position to intercept, call it on comms and wait, or both simultaneously? Walk through your decision in real time — what you do in the first 5 seconds, the next 10, and what you say."}, {"id": 4, "type": "scenario", "text": "After your first three ops as a Private your Sergeant pulls you aside and says your flying is excellent but you talk too much on comms — you are narrating your own actions instead of reporting what matters.", "scenario": "Walk through how you receive this feedback, what you say in response, and what specific changes you make to your comms behaviour starting from the very next op."}, {"id": 5, "type": "scenario", "text": "You are three ops into your Private career when you witness a fellow Private — more experienced than you — deliberately targeting a neutral ship that was not part of the op objective. The Sergeant did not see it.", "scenario": "Walk through exactly what you do. Who do you speak to, when, and what do you say? What are the risks of speaking up and the risks of staying silent?"}, {"id": 6, "type": "scenario", "text": "Your Corporal asks you — brand new Private — to lead the next Alpha training op for three newer Recruits. You have only just graduated yourself.", "scenario": "Do you accept? Walk through how you prepare, how you brief the Recruits, what you would focus on during the op, and what you do if something goes wrong that you do not know how to handle."}, {"id": 7, "type": "scenario", "text": "You are on your fifth op as a Private and for the first time you make a serious mistake — you break formation at the wrong moment and a hostile gets through to the support ships. No one is seriously hurt but the mistake is obvious to everyone.", "scenario": "The op ends. Walk through exactly what you do next — how you handle the debrief, what you say to your Sergeant, and how you mentally process the error without it affecting your confidence going into the next op."}], "HAUL": [{"id": 1, "type": "mc", "text": "You are a brand new Private in HAUL on your first fleet op. The Quartermaster assigns you a solo supply run between two stations while the rest of the fleet is in a mining op. You have no escort assigned. What do you do?", "options": ["Run the route immediately — no time to waste", "Check the route threat level first, request a VANGUARD escort if the route passes through a contested zone, then depart", "Just go — you are in a cargo ship not a fighter", "Ask the Quartermaster if you can skip it"], "correct": 1}, {"id": 2, "type": "gk", "text": "In Star Citizen 4.8, what is the role of the MISC Starlite in fleet operations?", "options": ["Combat escort for Hull C ships", "Dedicated in-flight refuelling ship — keeps the fleet fuelled without returning to station", "Long range scout for HORIZON", "Medical evacuation ship"], "correct": 1}, {"id": 3, "type": "scenario", "text": "It is your first week as a Private in HAUL. The Quartermaster asks you to track and log all cargo movements during a Beta industrial op. You have never done this before and the op starts in 10 minutes.", "scenario": "Walk through how you prepare in 10 minutes, what you track during the op, what happens if you miss something, and how you report at the end."}, {"id": 4, "type": "scenario", "text": "Mid-op your Hull C takes hull damage from a pirate interdiction. Your cargo hold is 80% full of high-value ore. VANGUARD is 3 minutes away. You can either hold position and defend or dump cargo and run.", "scenario": "Walk through your decision in real time. What factors do you weigh, what do you communicate, and what is your final call?"}, {"id": 5, "type": "scenario", "text": "You discover that the cargo manifest you were given at the start of the op does not match the actual cargo in your hold. The numbers are significantly different.", "scenario": "Walk through what you do before departure, who you report it to, and how you handle the discrepancy without delaying the op more than necessary."}, {"id": 6, "type": "scenario", "text": "The Quartermaster role is vacant mid-Gamma op because the member holding it had to leave unexpectedly. The Fleet Commander asks you — a brand new Private — to step in for the rest of the op.", "scenario": "Walk through how you handle this. What do you accept, what do you ask for, what do you prioritise, and how do you communicate your limitations to the FC without undermining confidence in the logistics element."}, {"id": 7, "type": "scenario", "text": "After your third op as a Private you realise you have been making the same small error on every supply run — you have been loading cargo in an inefficient order that is slowing down the collection cycle by several minutes each time.", "scenario": "Walk through how you identify the error, how you fix it, whether you report it to your Corporal, and what you do to make sure it does not happen again."}], "CORE": [{"id": 1, "type": "mc", "text": "You are a brand new Private in CORE crewing your first op on a medium ship. The Captain asks you to monitor all ship systems and report anything unusual. What is your primary focus for the first 10 minutes?", "options": ["Jump straight to repairing anything that looks damaged", "Familiarise yourself with the relay layout and establish a baseline — know what normal looks like before anything goes wrong", "Wait for something to break then respond", "Ask the Captain what to watch specifically"], "correct": 1}, {"id": 2, "type": "gk", "text": "In Star Citizen 4.8 engineering, what is the correct order of priority when multiple systems fail simultaneously during combat?", "options": ["Weapons first — combat effectiveness above all", "Life support first, then thrusters, then weapons, then hull — crew survival is always priority one", "Hull first — structural integrity above all", "Whatever the Captain asks for regardless of safety logic"], "correct": 1}, {"id": 3, "type": "scenario", "text": "It is your first op as a CORE Private. Mid-combat a relay fuse blows cutting power to the weapons compartment and the port thruster simultaneously. The Captain is focused on flying. The Co-Pilot is managing comms.", "scenario": "Walk through your response in real time — what you do in the first 10 seconds, what you communicate and to whom, which fault you fix first and why, and what you do if you cannot fix both before the situation escalates."}, {"id": 4, "type": "scenario", "text": "During a Gamma op the FOB takes damage and you are the only CORE engineer on board. Three tasks need doing simultaneously — a fire in compartment 3, a blown relay cutting power to medical, and hull breach on the port side.", "scenario": "You can only do one at a time. Walk through your triage decision with full reasoning. What do you do first, second, and third? What do you communicate to PULSE and to the Captain while you are working?"}, {"id": 5, "type": "scenario", "text": "A more experienced Private on your engineering team disagrees with your repair priority decision during an op and says so on comms in front of the Captain.", "scenario": "The op is still active. Walk through how you handle this in the moment and after the op. Do you change your decision, defend it, defer to them, or something else?"}, {"id": 6, "type": "scenario", "text": "You are crewing the Vulcan during a Beta op when the Fleet Captain orders you to move forward to repair a damaged fighter — but moving forward puts the Vulcan inside the engagement zone.", "scenario": "Walk through your response. Do you comply, question the order, suggest an alternative, or something else? What do you say and how do you say it?"}, {"id": 7, "type": "scenario", "text": "After your first week as a CORE Private you realise that your RMC supply management has been poor — you have been running out of repair material mid-op on two occasions forcing you to stop repairs at critical moments.", "scenario": "Walk through how you fix this going forward — what you check before every op, how you track consumption during an op, and how you communicate supply levels to the team."}], "CLAIM": [{"id": 1, "type": "mc", "text": "You are a brand new Private in CLAIM on your first solo Prospector run in RAM territory. You find a high-value high-instability rock. What do you do?", "options": ["Mine it immediately — high value means high priority", "Scan it fully, assess whether your current loadout can handle the instability safely, and only proceed if you are confident", "Call it in and wait for a MOLE team", "Skip it and find a safer rock"], "correct": 1}, {"id": 2, "type": "gk", "text": "In Star Citizen 4.8 mining, what is the function of the Brandt module on a mining laser?", "options": ["Increases laser power output", "Reduces the optimal window making the rock easier to control but slower to extract", "Widens the optimal window giving more safe room before overcharge", "Automatically stops the laser at the optimal point"], "correct": 2}, {"id": 3, "type": "scenario", "text": "It is your first solo Prospector run as a Private. Mid-extraction on a medium-value rock the charge starts climbing faster than expected and you cannot bring it back into the green zone. You are 60% through the fracture.", "scenario": "Walk through your decision in real time — do you push through, abort, adjust your approach, or something else? What do you actually do with the controls and what do you say on comms?"}, {"id": 4, "type": "scenario", "text": "You are operating as a MOLE laser operator under a more experienced Corporal during a Beta industrial op. The Corporal's extraction approach is different from what you learned in the Academy — less conservative, pushing closer to the overcharge line.", "scenario": "The Corporal has more experience than you. Walk through how you handle this. Do you adopt their method, raise a concern, ask questions, or follow silently?"}, {"id": 5, "type": "scenario", "text": "VANGUARD clears your mining zone and gives the all-clear. You begin extraction. Three minutes in, VANGUARD reports new contacts inbound — estimated 4 minutes out. You are at 70% fracture on a large rock.", "scenario": "Walk through your decision. Do you finish the fracture, abort, request more time from VANGUARD, or something else? What do you communicate and to whom?"}, {"id": 6, "type": "scenario", "text": "After your first week as a CLAIM Private your Corporal tells you that your instability management is excellent but you are not logging your extraction data consistently — you have missed the post-op log twice.", "scenario": "Walk through how you receive this feedback, what you say, and what system you put in place to make sure you never miss the log again."}, {"id": 7, "type": "scenario", "text": "You are on a solo Prospector run when you find a deposit that is clearly too large and too high-value to tackle alone. No other CLAIM members are online. HAUL has one member available but no escort.", "scenario": "Walk through your options — do you attempt it alone, wait for backup, partially extract what you can safely, or log it and leave? What do you communicate to the org?"}], "PULSE": [{"id": 1, "type": "mc", "text": "You are a brand new Private in PULSE on your first live op. You have a Cutlass Red and are positioned behind the fleet. The Fleet Captain has not assigned you a specific task. What do you do?", "options": ["Wait until someone calls for help then respond", "Establish yourself on comms — announce your position and availability, confirm you know the casualty collection point, and monitor all channels actively", "Follow the fighters into the engagement zone so you can reach casualties faster", "Ask the Captain what to do"], "correct": 1}, {"id": 2, "type": "gk", "text": "In Star Citizen 4.8, a player has a broken arm and is in significant pain but is still combat-capable. Which drug addresses the pain debuff most directly?", "options": ["Hemozal — restores health and stops bleeding", "Roxaphen — manages pain and reduces status debuffs from injuries", "Resurgera — counters overdose", "Any drug will help equally"], "correct": 1}, {"id": 3, "type": "scenario", "text": "It is your first op as a PULSE Private. Two casualties go down simultaneously — one is bleeding out in the open engagement zone, one is incapacitated but sheltered 200m back. You have one MedPen and your Cutlass Red is 30 seconds away from either.", "scenario": "Walk through your triage decision with full reasoning, what you communicate on comms, how you reach the first casualty safely, and what you do about the second while treating the first."}, {"id": 4, "type": "scenario", "text": "A casualty you are treating starts showing signs of overdose — BDL climbing toward 90% — but they are also still bleeding from a wound that needs Hemozal to stop. You cannot safely give more Hemozal without pushing BDL over 100%.", "scenario": "Walk through your treatment decision in real time — what you administer, in what order, what you tell the patient, and what you do if BDL hits 100% before you can stabilise them."}, {"id": 5, "type": "scenario", "text": "During a Gamma op the Apollo is at capacity with four casualties in treatment. The FOB medical bay is operational but unmanned — no PULSE member is there. A fifth casualty is incoming and cannot wait.", "scenario": "Walk through your decision — do you transfer a stable casualty to the FOB to make room, go to the FOB yourself, ask CORE to staff it temporarily, or something else? What do you communicate?"}, {"id": 6, "type": "scenario", "text": "After your first week as a PULSE Private your Corporal — the Chief Medical Officer — tells you that your triage decisions are good but you are spending too long on each patient when simpler cases could be resolved faster, leaving critical cases waiting.", "scenario": "Walk through how you receive this, what specific change you make to your treatment approach, and how you decide when a case is simple enough to handle quickly versus when it needs more attention."}, {"id": 7, "type": "scenario", "text": "A Private from VANGUARD approaches you privately after an op and says they have been having headaches and vision issues in-game that they think might be BDL-related from self-medicating between ops. They ask you to keep it quiet.", "scenario": "Walk through your response — what you say, what you do with the information, and who if anyone you involve. Balance their trust against your medical responsibility and your role within the org."}], "HORIZON": [{"id": 1, "type": "mc", "text": "You are a brand new Private in HORIZON assigned to route clearance for a Beta fleet op. You are in a Constellation Aquila 8km ahead of the fleet. You detect a medium-sized hostile ship 12km to the north that is not moving. What do you do first?", "options": ["Engage it before it spots the fleet", "Report it immediately with full details — bearing, distance, size, behaviour — then hold position and monitor", "Move closer to get a better scan", "Continue the route clearance and ignore it — it is not on the fleet path"], "correct": 1}, {"id": 2, "type": "gk", "text": "In Star Citizen 4.8, what is the key operational difference between the Anvil Terrapin and the RSI Constellation Aquila for HORIZON operations?", "options": ["The Terrapin is faster and better for route clearance", "The Terrapin is a dedicated scanning ship with superior sensor suite but no jump capability — the Aquila is a multi-role explorer with quantum capability and more endurance", "They are functionally identical", "The Aquila has better weapons for self-defence"], "correct": 1}, {"id": 3, "type": "scenario", "text": "It is your first op as a HORIZON Private. You are 10km ahead of the fleet doing route clearance when your scanner picks up three ships on the edge of your range — unknown profile, not moving, positioned in a pattern that looks like an ambush setup.", "scenario": "Walk through your response in real time — what you do with your ship, what you report, how you report it, and what you do while waiting for the Fleet Captain to respond."}, {"id": 4, "type": "scenario", "text": "During a long range HORIZON op the Fleet Commander asks you to push 25km ahead of the fleet into a zone that HORIZON intel classifies as unknown risk — no prior scouting data exists. You would be completely alone with no support in range.", "scenario": "Walk through your decision — do you go, negotiate the terms of how you go, request backup, or decline? What factors influence your decision and what do you say to the FC?"}, {"id": 5, "type": "scenario", "text": "You are on passive scan in an unknown zone when your instruments detect what appears to be a derelict capital ship — no life signs, no power, but still structurally intact. It is significantly off your assigned route.", "scenario": "Walk through your decision — do you investigate, log and leave, report and wait for orders, or something else? What do you communicate and how do you balance curiosity against your assigned task?"}, {"id": 6, "type": "scenario", "text": "After your first week as a HORIZON Private your Corporal tells you that your scanning data is thorough but your reports to command are too long and contain too much detail — you are slowing down decision-making during ops by over-reporting.", "scenario": "Walk through how you receive this feedback and what specific change you make to your reporting style. How do you decide what is essential to report versus what can wait or be omitted?"}, {"id": 7, "type": "scenario", "text": "You are doing route clearance when you detect a ship that matches the profile of a RAM member's vessel — but the transponder is off and it is running dark. It has not responded to your hails. It is following the fleet route at a distance.", "scenario": "Walk through every step — what you do, what you report, to whom, and how you handle the possibility that this is either a RAM member in trouble or a hostile using a spoofed profile."}]};
+const DIV_COLORS={"VANGUARD": "#e84040", "HAUL": "#1fc8a0", "CORE": "#e87820", "CLAIM": "#c08b20", "PULSE": "#60c8ff", "HORIZON": "#4a9eff"};
+const DIV_ICONS={"VANGUARD":"data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20680%20680%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22300%22%20fill%3D%22%2304070f%22/%3E%0A%3Cpolygon%20points%3D%22340%2C52%20576%2C188%20576%2C492%20340%2C628%20104%2C492%20104%2C188%22%20fill%3D%22none%22%20stroke%3D%22%23e84040%22%20stroke-width%3D%222.5%22/%3E%0A%3Cpolygon%20points%3D%22340%2C76%20554%2C203%20554%2C469%20340%2C604%20126%2C469%20126%2C203%22%20fill%3D%22none%22%20stroke%3D%22%23e84040%22%20stroke-width%3D%220.8%22%20opacity%3D%220.5%22/%3E%0A%3Cpolygon%20points%3D%22340%2C118%20514%2C232%20514%2C442%20340%2C562%20166%2C442%20166%2C232%22%20fill%3D%22%23060c18%22/%3E%0A%3Cline%20x1%3D%22340%22%20y1%3D%2252%22%20x2%3D%22340%22%20y2%3D%2276%22%20stroke%3D%22%23e84040%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22576%22%20y1%3D%22188%22%20x2%3D%22554%22%20y2%3D%22203%22%20stroke%3D%22%23e84040%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22576%22%20y1%3D%22492%22%20x2%3D%22554%22%20y2%3D%22469%22%20stroke%3D%22%23e84040%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22340%22%20y1%3D%22628%22%20x2%3D%22340%22%20y2%3D%22604%22%20stroke%3D%22%23e84040%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22104%22%20y1%3D%22492%22%20x2%3D%22126%22%20y2%3D%22469%22%20stroke%3D%22%23e84040%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22104%22%20y1%3D%22188%22%20x2%3D%22126%22%20y2%3D%22203%22%20stroke%3D%22%23e84040%22%20stroke-width%3D%222%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22140%22%20fill%3D%22%2304070f%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22138%22%20fill%3D%22none%22%20stroke%3D%22%23e84040%22%20stroke-width%3D%221%22/%3E%0A%3Cpolygon%20points%3D%22340%2C268%20404%2C304%20404%2C376%20340%2C412%20276%2C376%20276%2C304%22%20fill%3D%22%23091220%22%20stroke%3D%22%23e84040%22%20stroke-width%3D%221.5%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%226%22%20fill%3D%22%23e84040%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%223%22%20fill%3D%22%23e8f4ff%22/%3E%0A%3Cpolygon%20points%3D%22202%2C332%20204%2C337%20210%2C337%20205%2C341%20207%2C347%20202%2C343%20197%2C347%20199%2C341%20194%2C337%20200%2C337%22%20fill%3D%22%23e84040%22/%3E%0A%3Cpolygon%20points%3D%22478%2C332%20480%2C337%20486%2C337%20481%2C341%20483%2C347%20478%2C343%20473%2C347%20475%2C341%20470%2C337%20476%2C337%22%20fill%3D%22%23e84040%22/%3E%0A%3Crect%20x%3D%22252%22%20y%3D%22308%22%20width%3D%22176%22%20height%3D%2217%22%20rx%3D%222%22%20fill%3D%22%2304070f%22%20opacity%3D%220.9%22/%3E%0A%3Crect%20x%3D%22252%22%20y%3D%22328%22%20width%3D%22176%22%20height%3D%2217%22%20rx%3D%222%22%20fill%3D%22%2304070f%22%20opacity%3D%220.9%22/%3E%0A%3Ctext%20x%3D%22340%22%20y%3D%22321%22%20font-family%3D%22%27Barlow%20Condensed%27%2C%27Arial%20Narrow%27%2Csans-serif%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20fill%3D%22%23e84040%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3EVANGUARD%3C/text%3E%0A%3Ctext%20x%3D%22340%22%20y%3D%22341%22%20font-family%3D%22%27Barlow%20Condensed%27%2C%27Arial%20Narrow%27%2Csans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22700%22%20fill%3D%22%23e8f4ff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3ESECOND%20FLEET%3C/text%3E%0A%3C/svg%3E",
+"HAUL":"data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20680%20680%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22300%22%20fill%3D%22%2304070f%22/%3E%0A%3Cpolygon%20points%3D%22340%2C52%20576%2C188%20576%2C492%20340%2C628%20104%2C492%20104%2C188%22%20fill%3D%22none%22%20stroke%3D%22%231fc8a0%22%20stroke-width%3D%222.5%22/%3E%0A%3Cpolygon%20points%3D%22340%2C76%20554%2C203%20554%2C469%20340%2C604%20126%2C469%20126%2C203%22%20fill%3D%22none%22%20stroke%3D%22%231fc8a0%22%20stroke-width%3D%220.8%22%20opacity%3D%220.5%22/%3E%0A%3Cpolygon%20points%3D%22340%2C118%20514%2C232%20514%2C442%20340%2C562%20166%2C442%20166%2C232%22%20fill%3D%22%23060c18%22/%3E%0A%3Cline%20x1%3D%22340%22%20y1%3D%2252%22%20x2%3D%22340%22%20y2%3D%2276%22%20stroke%3D%22%231fc8a0%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22576%22%20y1%3D%22188%22%20x2%3D%22554%22%20y2%3D%22203%22%20stroke%3D%22%231fc8a0%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22576%22%20y1%3D%22492%22%20x2%3D%22554%22%20y2%3D%22469%22%20stroke%3D%22%231fc8a0%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22340%22%20y1%3D%22628%22%20x2%3D%22340%22%20y2%3D%22604%22%20stroke%3D%22%231fc8a0%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22104%22%20y1%3D%22492%22%20x2%3D%22126%22%20y2%3D%22469%22%20stroke%3D%22%231fc8a0%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22104%22%20y1%3D%22188%22%20x2%3D%22126%22%20y2%3D%22203%22%20stroke%3D%22%231fc8a0%22%20stroke-width%3D%222%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22140%22%20fill%3D%22%2304070f%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22138%22%20fill%3D%22none%22%20stroke%3D%22%231fc8a0%22%20stroke-width%3D%221%22/%3E%0A%3Cpolygon%20points%3D%22340%2C268%20404%2C304%20404%2C376%20340%2C412%20276%2C376%20276%2C304%22%20fill%3D%22%23091220%22%20stroke%3D%22%231fc8a0%22%20stroke-width%3D%221.5%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%226%22%20fill%3D%22%231fc8a0%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%223%22%20fill%3D%22%23e8f4ff%22/%3E%0A%3Cpolygon%20points%3D%22202%2C332%20204%2C337%20210%2C337%20205%2C341%20207%2C347%20202%2C343%20197%2C347%20199%2C341%20194%2C337%20200%2C337%22%20fill%3D%22%231fc8a0%22/%3E%0A%3Cpolygon%20points%3D%22478%2C332%20480%2C337%20486%2C337%20481%2C341%20483%2C347%20478%2C343%20473%2C347%20475%2C341%20470%2C337%20476%2C337%22%20fill%3D%22%231fc8a0%22/%3E%0A%3Crect%20x%3D%22252%22%20y%3D%22308%22%20width%3D%22176%22%20height%3D%2217%22%20rx%3D%222%22%20fill%3D%22%2304070f%22%20opacity%3D%220.9%22/%3E%0A%3Crect%20x%3D%22252%22%20y%3D%22328%22%20width%3D%22176%22%20height%3D%2217%22%20rx%3D%222%22%20fill%3D%22%2304070f%22%20opacity%3D%220.9%22/%3E%0A%3Ctext%20x%3D%22340%22%20y%3D%22321%22%20font-family%3D%22%27Barlow%20Condensed%27%2C%27Arial%20Narrow%27%2Csans-serif%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20fill%3D%22%231fc8a0%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3EHAUL%3C/text%3E%0A%3Ctext%20x%3D%22340%22%20y%3D%22341%22%20font-family%3D%22%27Barlow%20Condensed%27%2C%27Arial%20Narrow%27%2Csans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22700%22%20fill%3D%22%23e8f4ff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3ESECOND%20FLEET%3C/text%3E%0A%3C/svg%3E",
+"CORE":"data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20680%20680%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22300%22%20fill%3D%22%2304070f%22/%3E%0A%3Cpolygon%20points%3D%22340%2C52%20576%2C188%20576%2C492%20340%2C628%20104%2C492%20104%2C188%22%20fill%3D%22none%22%20stroke%3D%22%23e87820%22%20stroke-width%3D%222.5%22/%3E%0A%3Cpolygon%20points%3D%22340%2C76%20554%2C203%20554%2C469%20340%2C604%20126%2C469%20126%2C203%22%20fill%3D%22none%22%20stroke%3D%22%23e87820%22%20stroke-width%3D%220.8%22%20opacity%3D%220.5%22/%3E%0A%3Cpolygon%20points%3D%22340%2C118%20514%2C232%20514%2C442%20340%2C562%20166%2C442%20166%2C232%22%20fill%3D%22%23060c18%22/%3E%0A%3Cline%20x1%3D%22340%22%20y1%3D%2252%22%20x2%3D%22340%22%20y2%3D%2276%22%20stroke%3D%22%23e87820%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22576%22%20y1%3D%22188%22%20x2%3D%22554%22%20y2%3D%22203%22%20stroke%3D%22%23e87820%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22576%22%20y1%3D%22492%22%20x2%3D%22554%22%20y2%3D%22469%22%20stroke%3D%22%23e87820%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22340%22%20y1%3D%22628%22%20x2%3D%22340%22%20y2%3D%22604%22%20stroke%3D%22%23e87820%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22104%22%20y1%3D%22492%22%20x2%3D%22126%22%20y2%3D%22469%22%20stroke%3D%22%23e87820%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22104%22%20y1%3D%22188%22%20x2%3D%22126%22%20y2%3D%22203%22%20stroke%3D%22%23e87820%22%20stroke-width%3D%222%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22140%22%20fill%3D%22%2304070f%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22138%22%20fill%3D%22none%22%20stroke%3D%22%23e87820%22%20stroke-width%3D%221%22/%3E%0A%3Cpolygon%20points%3D%22340%2C268%20404%2C304%20404%2C376%20340%2C412%20276%2C376%20276%2C304%22%20fill%3D%22%23091220%22%20stroke%3D%22%23e87820%22%20stroke-width%3D%221.5%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%226%22%20fill%3D%22%23e87820%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%223%22%20fill%3D%22%23e8f4ff%22/%3E%0A%3Cpolygon%20points%3D%22202%2C332%20204%2C337%20210%2C337%20205%2C341%20207%2C347%20202%2C343%20197%2C347%20199%2C341%20194%2C337%20200%2C337%22%20fill%3D%22%23e87820%22/%3E%0A%3Cpolygon%20points%3D%22478%2C332%20480%2C337%20486%2C337%20481%2C341%20483%2C347%20478%2C343%20473%2C347%20475%2C341%20470%2C337%20476%2C337%22%20fill%3D%22%23e87820%22/%3E%0A%3Crect%20x%3D%22252%22%20y%3D%22308%22%20width%3D%22176%22%20height%3D%2217%22%20rx%3D%222%22%20fill%3D%22%2304070f%22%20opacity%3D%220.9%22/%3E%0A%3Crect%20x%3D%22252%22%20y%3D%22328%22%20width%3D%22176%22%20height%3D%2217%22%20rx%3D%222%22%20fill%3D%22%2304070f%22%20opacity%3D%220.9%22/%3E%0A%3Ctext%20x%3D%22340%22%20y%3D%22321%22%20font-family%3D%22%27Barlow%20Condensed%27%2C%27Arial%20Narrow%27%2Csans-serif%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20fill%3D%22%23e87820%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3ECORE%3C/text%3E%0A%3Ctext%20x%3D%22340%22%20y%3D%22341%22%20font-family%3D%22%27Barlow%20Condensed%27%2C%27Arial%20Narrow%27%2Csans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22700%22%20fill%3D%22%23e8f4ff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3ESECOND%20FLEET%3C/text%3E%0A%3C/svg%3E",
+"CLAIM":"data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20680%20680%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22300%22%20fill%3D%22%2304070f%22/%3E%0A%3Cpolygon%20points%3D%22340%2C52%20576%2C188%20576%2C492%20340%2C628%20104%2C492%20104%2C188%22%20fill%3D%22none%22%20stroke%3D%22%23c08b20%22%20stroke-width%3D%222.5%22/%3E%0A%3Cpolygon%20points%3D%22340%2C76%20554%2C203%20554%2C469%20340%2C604%20126%2C469%20126%2C203%22%20fill%3D%22none%22%20stroke%3D%22%23c08b20%22%20stroke-width%3D%220.8%22%20opacity%3D%220.5%22/%3E%0A%3Cpolygon%20points%3D%22340%2C118%20514%2C232%20514%2C442%20340%2C562%20166%2C442%20166%2C232%22%20fill%3D%22%23060c18%22/%3E%0A%3Cline%20x1%3D%22340%22%20y1%3D%2252%22%20x2%3D%22340%22%20y2%3D%2276%22%20stroke%3D%22%23c08b20%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22576%22%20y1%3D%22188%22%20x2%3D%22554%22%20y2%3D%22203%22%20stroke%3D%22%23c08b20%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22576%22%20y1%3D%22492%22%20x2%3D%22554%22%20y2%3D%22469%22%20stroke%3D%22%23c08b20%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22340%22%20y1%3D%22628%22%20x2%3D%22340%22%20y2%3D%22604%22%20stroke%3D%22%23c08b20%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22104%22%20y1%3D%22492%22%20x2%3D%22126%22%20y2%3D%22469%22%20stroke%3D%22%23c08b20%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22104%22%20y1%3D%22188%22%20x2%3D%22126%22%20y2%3D%22203%22%20stroke%3D%22%23c08b20%22%20stroke-width%3D%222%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22140%22%20fill%3D%22%2304070f%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22138%22%20fill%3D%22none%22%20stroke%3D%22%23c08b20%22%20stroke-width%3D%221%22/%3E%0A%3Cpolygon%20points%3D%22340%2C268%20404%2C304%20404%2C376%20340%2C412%20276%2C376%20276%2C304%22%20fill%3D%22%23091220%22%20stroke%3D%22%23c08b20%22%20stroke-width%3D%221.5%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%226%22%20fill%3D%22%23c08b20%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%223%22%20fill%3D%22%23e8f4ff%22/%3E%0A%3Cpolygon%20points%3D%22202%2C332%20204%2C337%20210%2C337%20205%2C341%20207%2C347%20202%2C343%20197%2C347%20199%2C341%20194%2C337%20200%2C337%22%20fill%3D%22%23c08b20%22/%3E%0A%3Cpolygon%20points%3D%22478%2C332%20480%2C337%20486%2C337%20481%2C341%20483%2C347%20478%2C343%20473%2C347%20475%2C341%20470%2C337%20476%2C337%22%20fill%3D%22%23c08b20%22/%3E%0A%3Crect%20x%3D%22252%22%20y%3D%22308%22%20width%3D%22176%22%20height%3D%2217%22%20rx%3D%222%22%20fill%3D%22%2304070f%22%20opacity%3D%220.9%22/%3E%0A%3Crect%20x%3D%22252%22%20y%3D%22328%22%20width%3D%22176%22%20height%3D%2217%22%20rx%3D%222%22%20fill%3D%22%2304070f%22%20opacity%3D%220.9%22/%3E%0A%3Ctext%20x%3D%22340%22%20y%3D%22321%22%20font-family%3D%22%27Barlow%20Condensed%27%2C%27Arial%20Narrow%27%2Csans-serif%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20fill%3D%22%23c08b20%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3ECLAIM%3C/text%3E%0A%3Ctext%20x%3D%22340%22%20y%3D%22341%22%20font-family%3D%22%27Barlow%20Condensed%27%2C%27Arial%20Narrow%27%2Csans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22700%22%20fill%3D%22%23e8f4ff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3ESECOND%20FLEET%3C/text%3E%0A%3C/svg%3E",
+"PULSE":"data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20680%20680%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22300%22%20fill%3D%22%2304070f%22/%3E%0A%3Cpolygon%20points%3D%22340%2C52%20576%2C188%20576%2C492%20340%2C628%20104%2C492%20104%2C188%22%20fill%3D%22none%22%20stroke%3D%22%2360c8ff%22%20stroke-width%3D%222.5%22/%3E%0A%3Cpolygon%20points%3D%22340%2C76%20554%2C203%20554%2C469%20340%2C604%20126%2C469%20126%2C203%22%20fill%3D%22none%22%20stroke%3D%22%2360c8ff%22%20stroke-width%3D%220.8%22%20opacity%3D%220.5%22/%3E%0A%3Cpolygon%20points%3D%22340%2C118%20514%2C232%20514%2C442%20340%2C562%20166%2C442%20166%2C232%22%20fill%3D%22%23060c18%22/%3E%0A%3Cline%20x1%3D%22340%22%20y1%3D%2252%22%20x2%3D%22340%22%20y2%3D%2276%22%20stroke%3D%22%2360c8ff%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22576%22%20y1%3D%22188%22%20x2%3D%22554%22%20y2%3D%22203%22%20stroke%3D%22%2360c8ff%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22576%22%20y1%3D%22492%22%20x2%3D%22554%22%20y2%3D%22469%22%20stroke%3D%22%2360c8ff%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22340%22%20y1%3D%22628%22%20x2%3D%22340%22%20y2%3D%22604%22%20stroke%3D%22%2360c8ff%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22104%22%20y1%3D%22492%22%20x2%3D%22126%22%20y2%3D%22469%22%20stroke%3D%22%2360c8ff%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22104%22%20y1%3D%22188%22%20x2%3D%22126%22%20y2%3D%22203%22%20stroke%3D%22%2360c8ff%22%20stroke-width%3D%222%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22140%22%20fill%3D%22%2304070f%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22138%22%20fill%3D%22none%22%20stroke%3D%22%2360c8ff%22%20stroke-width%3D%221%22/%3E%0A%3Cpolygon%20points%3D%22340%2C268%20404%2C304%20404%2C376%20340%2C412%20276%2C376%20276%2C304%22%20fill%3D%22%23091220%22%20stroke%3D%22%2360c8ff%22%20stroke-width%3D%221.5%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%226%22%20fill%3D%22%2360c8ff%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%223%22%20fill%3D%22%23e8f4ff%22/%3E%0A%3Cpolygon%20points%3D%22202%2C332%20204%2C337%20210%2C337%20205%2C341%20207%2C347%20202%2C343%20197%2C347%20199%2C341%20194%2C337%20200%2C337%22%20fill%3D%22%2360c8ff%22/%3E%0A%3Cpolygon%20points%3D%22478%2C332%20480%2C337%20486%2C337%20481%2C341%20483%2C347%20478%2C343%20473%2C347%20475%2C341%20470%2C337%20476%2C337%22%20fill%3D%22%2360c8ff%22/%3E%0A%3Crect%20x%3D%22252%22%20y%3D%22308%22%20width%3D%22176%22%20height%3D%2217%22%20rx%3D%222%22%20fill%3D%22%2304070f%22%20opacity%3D%220.9%22/%3E%0A%3Crect%20x%3D%22252%22%20y%3D%22328%22%20width%3D%22176%22%20height%3D%2217%22%20rx%3D%222%22%20fill%3D%22%2304070f%22%20opacity%3D%220.9%22/%3E%0A%3Ctext%20x%3D%22340%22%20y%3D%22321%22%20font-family%3D%22%27Barlow%20Condensed%27%2C%27Arial%20Narrow%27%2Csans-serif%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20fill%3D%22%2360c8ff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3EPULSE%3C/text%3E%0A%3Ctext%20x%3D%22340%22%20y%3D%22341%22%20font-family%3D%22%27Barlow%20Condensed%27%2C%27Arial%20Narrow%27%2Csans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22700%22%20fill%3D%22%23e8f4ff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3ESECOND%20FLEET%3C/text%3E%0A%3C/svg%3E",
+"HORIZON":"data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20680%20680%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22300%22%20fill%3D%22%2304070f%22/%3E%0A%3Cpolygon%20points%3D%22340%2C52%20576%2C188%20576%2C492%20340%2C628%20104%2C492%20104%2C188%22%20fill%3D%22none%22%20stroke%3D%22%234a9eff%22%20stroke-width%3D%222.5%22/%3E%0A%3Cpolygon%20points%3D%22340%2C76%20554%2C203%20554%2C469%20340%2C604%20126%2C469%20126%2C203%22%20fill%3D%22none%22%20stroke%3D%22%234a9eff%22%20stroke-width%3D%220.8%22%20opacity%3D%220.5%22/%3E%0A%3Cpolygon%20points%3D%22340%2C118%20514%2C232%20514%2C442%20340%2C562%20166%2C442%20166%2C232%22%20fill%3D%22%23060c18%22/%3E%0A%3Cline%20x1%3D%22340%22%20y1%3D%2252%22%20x2%3D%22340%22%20y2%3D%2276%22%20stroke%3D%22%234a9eff%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22576%22%20y1%3D%22188%22%20x2%3D%22554%22%20y2%3D%22203%22%20stroke%3D%22%234a9eff%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22576%22%20y1%3D%22492%22%20x2%3D%22554%22%20y2%3D%22469%22%20stroke%3D%22%234a9eff%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22340%22%20y1%3D%22628%22%20x2%3D%22340%22%20y2%3D%22604%22%20stroke%3D%22%234a9eff%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22104%22%20y1%3D%22492%22%20x2%3D%22126%22%20y2%3D%22469%22%20stroke%3D%22%234a9eff%22%20stroke-width%3D%222%22/%3E%0A%3Cline%20x1%3D%22104%22%20y1%3D%22188%22%20x2%3D%22126%22%20y2%3D%22203%22%20stroke%3D%22%234a9eff%22%20stroke-width%3D%222%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22140%22%20fill%3D%22%2304070f%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%22138%22%20fill%3D%22none%22%20stroke%3D%22%234a9eff%22%20stroke-width%3D%221%22/%3E%0A%3Cpolygon%20points%3D%22340%2C268%20404%2C304%20404%2C376%20340%2C412%20276%2C376%20276%2C304%22%20fill%3D%22%23091220%22%20stroke%3D%22%234a9eff%22%20stroke-width%3D%221.5%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%226%22%20fill%3D%22%234a9eff%22/%3E%0A%3Ccircle%20cx%3D%22340%22%20cy%3D%22340%22%20r%3D%223%22%20fill%3D%22%23e8f4ff%22/%3E%0A%3Cpolygon%20points%3D%22202%2C332%20204%2C337%20210%2C337%20205%2C341%20207%2C347%20202%2C343%20197%2C347%20199%2C341%20194%2C337%20200%2C337%22%20fill%3D%22%234a9eff%22/%3E%0A%3Cpolygon%20points%3D%22478%2C332%20480%2C337%20486%2C337%20481%2C341%20483%2C347%20478%2C343%20473%2C347%20475%2C341%20470%2C337%20476%2C337%22%20fill%3D%22%234a9eff%22/%3E%0A%3Crect%20x%3D%22252%22%20y%3D%22308%22%20width%3D%22176%22%20height%3D%2217%22%20rx%3D%222%22%20fill%3D%22%2304070f%22%20opacity%3D%220.9%22/%3E%0A%3Crect%20x%3D%22252%22%20y%3D%22328%22%20width%3D%22176%22%20height%3D%2217%22%20rx%3D%222%22%20fill%3D%22%2304070f%22%20opacity%3D%220.9%22/%3E%0A%3Ctext%20x%3D%22340%22%20y%3D%22321%22%20font-family%3D%22%27Barlow%20Condensed%27%2C%27Arial%20Narrow%27%2Csans-serif%22%20font-size%3D%2215%22%20font-weight%3D%22700%22%20fill%3D%22%234a9eff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3EHORIZON%3C/text%3E%0A%3Ctext%20x%3D%22340%22%20y%3D%22341%22%20font-family%3D%22%27Barlow%20Condensed%27%2C%27Arial%20Narrow%27%2Csans-serif%22%20font-size%3D%2213%22%20font-weight%3D%22700%22%20fill%3D%22%23e8f4ff%22%20text-anchor%3D%22middle%22%20letter-spacing%3D%223%22%3ESECOND%20FLEET%3C/text%3E%0A%3C/svg%3E"};
+const ADMIN_PASS='captainram';
+const EXAM_ID='RHL-ACM-2956-C2G';
+
+let callsign='',phase='general',selectedDiv='',QUESTIONS=[],answers={},genAnswers={},divAnswers={};
+let genSubmitId=null;
+
+// ── INIT ──
+window.addEventListener('load',()=>{
+  // Inject icons into division picker
+  Object.keys(DIV_ICONS).forEach(div=>{
+    const el=document.getElementById('icon-'+div);
+    if(el) el.innerHTML='<img src="'+DIV_ICONS[div]+'" style="width:48px;height:48px;display:block;margin:0 auto;"/>';
+  });
+  // Admin panel
+  if(window.location.href.indexOf('admin')!==-1) buildAdminPanel();
+});
+
+function buildAdminPanel(){
+  const wrap=document.getElementById('admin-wrap');
+  if(!wrap)return;
+  const div=document.createElement('div');
+  div.style.cssText='margin-top:60px;background:#060c18;border:1px solid rgba(232,64,64,0.2);padding:32px;';
+  div.innerHTML='<div class="admin-title">&#11041; Admiral Panel — Cadet to Graduate Final Exam</div>'
+    +'<div class="admin-sub">Final exam submissions. Both parts shown per candidate.</div>'
+    +'<div id="alog" style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">'
+    +'<input class="inp" id="apass" type="password" placeholder="Admin password..." style="max-width:280px;text-transform:none;"/>'
+    +'<button class="btn-admin-login" onclick="aLogin()">Unlock Panel</button></div>'
+    +'<div id="asubs"></div>';
+  wrap.appendChild(div);
+}
+
+function checkGate(){document.getElementById('btn-start').disabled=document.getElementById('cs-inp').value.trim().length<2;}
+
+function startExam(){
+  callsign=document.getElementById('cs-inp').value.trim();
+  if(callsign.length<2)return;
+  phase='general';
+  QUESTIONS=GEN_QUESTIONS;
+  answers=genAnswers;
+  document.getElementById('gate').style.display='none';
+  document.getElementById('progress-wrap').style.display='block';
+  document.getElementById('exam').style.display='block';
+  renderQ(0);
+}
+
+function selectDiv(el,div){
+  document.querySelectorAll('.div-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedDiv=div;
+  document.getElementById('btn-begin-div').disabled=false;
+  const col=DIV_COLORS[div]||'#9060ff';
+  document.documentElement.style.setProperty('--div',col);
+  const r=parseInt(col.slice(1,3),16),g=parseInt(col.slice(3,5),16),b=parseInt(col.slice(5,7),16);
+  document.documentElement.style.setProperty('--div-d',`rgba(${r},${g},${b},0.12)`);
+  document.getElementById('nav-tag').textContent='⬡ C2G · '+div+' Division · Part 2';
+}
+
+function startDivExam(){
+  if(!selectedDiv)return;
+  QUESTIONS=DIV_QUESTIONS[selectedDiv]||[];
+  answers=divAnswers;
+  phase='division';
+  document.getElementById('part-transition').style.display='none';
+  document.getElementById('phase-2').className='phase-block active';
+  document.getElementById('progress-wrap').style.display='block';
+  document.getElementById('exam').style.display='block';
+  renderQ(0);
+}
+
+function renderQ(idx){
+  const q=QUESTIONS[idx];
+  const totalQ=QUESTIONS.length;
+  const pct=Math.round(idx/totalQ*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-pct').textContent=pct+'%';
+  const partLabel=phase==='general'?'Part 1 · General':'Part 2 · '+selectedDiv;
+  document.getElementById('prog-lbl').textContent='Q'+(idx+1)+' of '+totalQ+' · '+partLabel;
+  const isLast=idx===totalQ-1;
+  const nextLabel=isLast?(phase==='general'?'Complete Part 1 &#8594;':'Review All &#8594;'):'Next &#8594;';
+  let html='';
+  if(q.type==='mc'||q.type==='gk'){
+    const saved=answers[q.id]!==undefined?answers[q.id].answer:null;
+    const label=q.type==='gk'?'Game Knowledge':'Multiple Choice';
+    const cls=q.type==='gk'?'gk':'mc';
+    html='<div class="question-block active"><div class="q-number">'+partLabel+' · Question '+(idx+1)+' of '+totalQ+'</div>'
+      +'<div class="q-type-tag '+cls+'">'+label+'</div><div class="q-text">'+q.text+'</div>'
+      +'<div class="options" id="opts-'+idx+'">'
+      +q.options.map((o,i)=>'<div class="option'+(saved===i?' selected':'')+'" onclick="pick('+idx+','+i+')"><span class="option-letter">'+String.fromCharCode(65+i)+'.</span><span class="option-text">'+o+'</span></div>').join('')
+      +'</div><div class="q-nav">'
+      +'<button class="btn-nav" onclick="goQ('+(idx-1)+')" '+(idx===0?'disabled':'')+'>&#8592; Back</button>'
+      +'<span class="q-counter">'+(idx+1)+' / '+totalQ+'</span>'
+      +'<button class="btn-next" id="bn-'+idx+'" onclick="goQ('+(idx+1)+')" '+(saved===null?'disabled':'')+'>'+(isLast?nextLabel:'Next &#8594;')+'</button>'
+      +'</div></div>';
+  }else{
+    const saved=answers[q.id]!==undefined?answers[q.id].answer:'';
+    const minLen=phase==='general'?50:30;
+    html='<div class="question-block active"><div class="q-number">'+partLabel+' · Question '+(idx+1)+' of '+totalQ+'</div>'
+      +'<div class="q-type-tag sc">Scenario</div><div class="q-text">'+q.text+'</div>'
+      +'<div class="q-scenario"><strong style="color:var(--green)">Situation:</strong> '+q.scenario+'</div>'
+      +'<textarea class="scenario-textarea" id="sc-'+idx+'" placeholder="This is a final exam. Write a full, honest, detailed response..." oninput="onSC('+idx+',this,'+minLen+')" maxlength="1500">'+saved+'</textarea>'
+      +'<div class="char-count" id="cc-'+idx+'">'+saved.length+' / 1500 — minimum '+minLen+' characters</div>'
+      +'<div class="q-nav">'
+      +'<button class="btn-nav" onclick="goQ('+(idx-1)+')" '+(idx===0?'disabled':'')+'>&#8592; Back</button>'
+      +'<span class="q-counter">'+(idx+1)+' / '+totalQ+'</span>'
+      +'<button class="btn-next" id="bns-'+idx+'" onclick="goQ('+(idx+1)+')" '+(saved.length<minLen?'disabled':'')+'>'+(isLast?nextLabel:'Next &#8594;')+'</button>'
+      +'</div></div>';
+  }
+  document.getElementById('exam').innerHTML=html;
+}
+
+function pick(qi,oi){const q=QUESTIONS[qi];answers[q.id]={type:q.type,answer:oi,answerText:q.options[oi],correct:oi===q.correct};document.querySelectorAll('#opts-'+qi+' .option').forEach((el,i)=>el.classList.toggle('selected',i===oi));document.getElementById('bn-'+qi).disabled=false;}
+function onSC(qi,el,minLen){const q=QUESTIONS[qi];answers[q.id]={type:'scenario',answer:el.value,correct:null};document.getElementById('cc-'+qi).textContent=el.value.length+' / 1500 — minimum '+minLen+' characters';document.getElementById('bns-'+qi).disabled=el.value.length<minLen;}
+
+function goQ(idx){
+  if(idx<0||idx>QUESTIONS.length)return;
+  if(idx===QUESTIONS.length){
+    if(phase==='general'){
+      // Save general answers and move to part transition
+      genAnswers=Object.assign({},answers);
+      document.getElementById('exam').style.display='none';
+      document.getElementById('progress-wrap').style.display='none';
+      document.getElementById('part-transition').style.display='block';
+      document.getElementById('phase-1').className='phase-block done';
+      document.getElementById('phase-2').className='phase-block active';
+    }else{
+      // Save div answers and show review
+      divAnswers=Object.assign({},answers);
+      showReview();
+    }
+    return;
+  }
+  renderQ(idx);
+}
+
+function showReview(){
+  document.getElementById('exam').style.display='none';
+  document.getElementById('progress-wrap').style.display='none';
+  document.getElementById('phase-2').className='phase-block done';
+  const el=document.getElementById('review');el.style.display='block';
+
+  const allQ=[...GEN_QUESTIONS,...(DIV_QUESTIONS[selectedDiv]||[])];
+  const allA=Object.assign({},genAnswers,divAnswers);
+
+  let html='<div class="review-header"><div class="review-title">Review — Both Parts</div>'
+    +'<div class="review-sub">Review all answers before final submission. Scenario responses can still be edited by going back. This is your last chance. The Admiral will read every answer.</div></div>';
+
+  // Part 1
+  html+='<div style="font-size:9px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;padding:12px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px;">Part 1 — General Exam</div>';
+  GEN_QUESTIONS.forEach((q,idx)=>{
+    const ans=allA[q.id];let disp='',cls='';
+    if(!ans)disp='<span style="color:var(--red)">Not answered</span>';
+    else if(q.type==='scenario'){disp=ans.answer||'No response';cls='sc-ans';}
+    else disp=String.fromCharCode(65+ans.answer)+'. '+ans.answerText;
+    const edit=q.type==='scenario'?'<button class="btn-nav" style="margin-top:8px;font-size:10px;" onclick="editGenQ('+idx+')">&#9999; Edit</button>':'<div style="font-size:10px;color:var(--text4);margin-top:6px;">MC cannot be changed.</div>';
+    html+='<div class="review-item"><div class="review-q">P1 Q'+(idx+1)+' · '+(q.type==='gk'?'Game Knowledge':q.type==='mc'?'Multiple Choice':'Scenario')+'</div>'
+      +'<div class="review-question">'+q.text+'</div><div class="review-answer '+cls+'">'+disp+'</div>'+edit+'</div>';
+  });
+
+  // Part 2
+  const divQ=DIV_QUESTIONS[selectedDiv]||[];
+  html+='<div style="font-size:9px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;padding:12px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px;margin-top:8px;">Part 2 — '+selectedDiv+' Division Exam</div>';
+  divQ.forEach((q,idx)=>{
+    const ans=allA[q.id];let disp='',cls='';
+    if(!ans)disp='<span style="color:var(--red)">Not answered</span>';
+    else if(q.type==='scenario'){disp=ans.answer||'No response';cls='sc-ans';}
+    else disp=String.fromCharCode(65+ans.answer)+'. '+ans.answerText;
+    const edit=q.type==='scenario'?'<button class="btn-nav" style="margin-top:8px;font-size:10px;" onclick="editDivQ('+idx+')">&#9999; Edit</button>':'<div style="font-size:10px;color:var(--text4);margin-top:6px;">MC cannot be changed.</div>';
+    html+='<div class="review-item"><div class="review-q">P2 Q'+(idx+1)+' · '+(q.type==='gk'?'Game Knowledge':q.type==='mc'?'Multiple Choice':'Scenario')+'</div>'
+      +'<div class="review-question">'+q.text+'</div><div class="review-answer '+cls+'">'+disp+'</div>'+edit+'</div>';
+  });
+
+  const allA2=Object.assign({},genAnswers,divAnswers);
+  const allQFull=[...GEN_QUESTIONS,...divQ];
+  const ok=allQFull.every(q=>allA2[q.id]&&(q.type==='scenario'?allA2[q.id].answer.length>=(GEN_QUESTIONS.includes(q)?50:30):true));
+  html+='<button class="btn-submit" id="btn-sub" onclick="submitAll()" '+(ok?'':'disabled')+'>'+(ok?'&#11041; Submit Final Exam to Admiral &#8594;':'&#9888; Answer All Questions Before Submitting')+'</button>';
+  el.innerHTML=html;
+}
+
+function editGenQ(idx){
+  // Go back to general exam at that question
+  phase='general';QUESTIONS=GEN_QUESTIONS;answers=genAnswers;
+  document.documentElement.style.setProperty('--div','#9060ff');
+  document.documentElement.style.setProperty('--div-d','rgba(144,96,255,0.12)');
+  document.getElementById('review').style.display='none';
+  document.getElementById('progress-wrap').style.display='block';
+  document.getElementById('exam').style.display='block';
+  renderQ(idx);
+}
+function editDivQ(idx){
+  // Go back to division exam at that question
+  phase='division';QUESTIONS=DIV_QUESTIONS[selectedDiv]||[];answers=divAnswers;
+  document.getElementById('review').style.display='none';
+  document.getElementById('progress-wrap').style.display='block';
+  document.getElementById('exam').style.display='block';
+  renderQ(idx);
+}
+
+async function submitAll(){
+  const btn=document.getElementById('btn-sub');btn.disabled=true;btn.textContent='Submitting...';
+  const allA=Object.assign({},genAnswers,divAnswers);
+  const allQ=[...GEN_QUESTIONS,...(DIV_QUESTIONS[selectedDiv]||[])];
+  const gradable=allQ.filter(q=>q.type==='mc'||q.type==='gk');
+  const correct=gradable.filter(q=>allA[q.id]&&allA[q.id].correct).length;
+
+  const data={
+    callsign,
+    date:new Date().toISOString(),
+    dateFormatted:new Date().toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),
+    exam:'Cadet to Graduate - Final',
+    examId:EXAM_ID,
+    division:selectedDiv,
+    mcScore:correct+'/'+gradable.length,
+    answers:JSON.stringify(allQ.map(q=>({
+      id:q.id,
+      part:GEN_QUESTIONS.includes(q)?'General':selectedDiv,
+      question:q.text,
+      type:q.type,
+      answerText:allA[q.id]?(q.type==='scenario'?allA[q.id].answer:allA[q.id].answerText):null,
+      correct:allA[q.id]?allA[q.id].correct:null
+    }))),
+    status:'pending',
+    graduated:false
+  };
+
+  try{
+    const id=await fsAdd('exam_submissions',data);
+    document.getElementById('review').style.display='none';
+    document.getElementById('submitted').style.display='block';
+    document.getElementById('phase-sub').className='phase-block done';
+    document.getElementById('sub-id').textContent='Submission ID: '+id;
+  }catch(e){btn.disabled=false;btn.textContent='Submit Failed - Try Again';}
+}
+
+// ── ADMIN ──
+function aLogin(){const p=document.getElementById('apass').value;if(p===ADMIN_PASS){document.getElementById('alog').style.display='none';loadSubs();}else{document.getElementById('apass').style.borderColor='var(--red)';setTimeout(()=>document.getElementById('apass').style.borderColor='',1500);}}
+
+async function loadSubs(){
+  const el=document.getElementById('asubs');
+  el.innerHTML='<div style="font-size:12px;color:var(--text3);padding:16px;">Loading...</div>';
+  try{
+    const all=await fsGet('exam_submissions');
+    const docs=all.filter(d=>d.examId===EXAM_ID).sort((a,b)=>new Date(b.date)-new Date(a.date));
+    if(!docs.length){el.innerHTML='<div style="font-size:12px;color:var(--text3);padding:16px;">No submissions yet.</div>';return;}
+    el.innerHTML=docs.map(d=>{
+      const parts=(d.mcScore||'0/5').split('/');
+      const pct=parts[1]>0?Math.round(parseInt(parts[0])/parseInt(parts[1])*100):0;
+      const col=DIV_COLORS[d.division]||'#9060ff';
+      let ans=[];try{ans=JSON.parse(d.answers||'[]');}catch(e){}
+      const genAns=ans.filter(a=>a.part==='General');
+      const divAns=ans.filter(a=>a.part!=='General');
+      return '<div class="submission-card" id="sc-'+d.id+'">'
+        +'<div style="display:flex;justify-content:space-between;gap:16px;margin-bottom:14px;flex-wrap:wrap;">'
+        +'<div><div style="font-family:var(--display);font-size:20px;font-weight:700;text-transform:uppercase;">'+(d.callsign||'')+'</div>'
+        +'<div style="font-size:10px;color:var(--text3);">'+(d.dateFormatted||'')+' · <span style="color:'+col+'">'+d.division+' Division</span> · Cadet to Graduate</div></div>'
+        +'<div><div style="font-family:var(--display);font-size:16px;font-weight:700;" class="'+(pct>=60?'pass':'review-score')+'">MC+GK: '+d.mcScore+' ('+pct+'%)</div>'
+        +'<div style="font-size:10px;color:var(--text3);margin-top:3px;">'+(d.graduated?'&#10003; Graduated':d.status||'pending')+'</div></div></div>'
+        +'<div style="font-size:9px;letter-spacing:0.15em;color:var(--text3);text-transform:uppercase;margin-bottom:8px;">Part 1 — General</div>'
+        +'<div style="margin-bottom:12px;">'+genAns.map(a=>'<div style="display:flex;flex-direction:column;gap:3px;padding:6px 0;border-bottom:1px solid var(--text4);">'
+          +'<div style="font-size:10px;color:var(--text3);">Q'+a.id+' ['+( a.type==='gk'?'GK':a.type==='mc'?'MC':'SC')+'] '+a.question+'</div>'
+          +'<div style="font-size:12px;padding-left:14px;" class="'+(a.type==='scenario'?'scenario-ans':a.correct?'correct':'wrong')+'">'
+          +'&#8594; '+(a.answerText||'No answer')+(a.type!=='scenario'?(a.correct?' &#10003;':' &#10007;'):'')+'</div></div>').join('')+'</div>'
+        +'<div style="font-size:9px;letter-spacing:0.15em;color:'+col+';text-transform:uppercase;margin-bottom:8px;">Part 2 — '+d.division+'</div>'
+        +'<div style="margin-bottom:14px;">'+divAns.map(a=>'<div style="display:flex;flex-direction:column;gap:3px;padding:6px 0;border-bottom:1px solid var(--text4);">'
+          +'<div style="font-size:10px;color:var(--text3);">Q'+a.id+' ['+( a.type==='gk'?'GK':a.type==='mc'?'MC':'SC')+'] '+a.question+'</div>'
+          +'<div style="font-size:12px;padding-left:14px;" class="'+(a.type==='scenario'?'scenario-ans':a.correct?'correct':'wrong')+'">'
+          +'&#8594; '+(a.answerText||'No answer')+(a.type!=='scenario'?(a.correct?' &#10003;':' &#10007;'):'')+'</div></div>').join('')+'</div>'
+        +(!d.graduated
+          ?'<div style="display:flex;gap:8px;flex-wrap:wrap;">'
+            +'<button class="btn-promote" onclick="graduate(this)" data-id="'+d.id+'" data-cs="'+d.callsign+'" data-div="'+d.division+'" data-date="'+(d.dateFormatted||'')+'">&#11041; Graduate &#8594; Promote to Private</button>'
+            +'<button class="btn-promote" style="background:var(--red);" onclick="failExam(this)" data-id="'+d.id+'" data-cs="'+d.callsign+'" data-div="'+d.division+'">&#10007; Not Ready</button></div>'
+          :'<div style="font-size:11px;color:var(--green);margin-top:8px;">&#10003; Graduated &#8594; Private</div>')
+        +'</div>';
+    }).join('');
+  }catch(e){el.innerHTML='<div style="font-size:12px;color:var(--red);padding:16px;">Error: '+e.message+'</div>';}
+}
+
+async function graduate(btn){
+  const id=btn.dataset.id,cs=btn.dataset.cs,div=btn.dataset.div,date=btn.dataset.date;
+  if(!confirm('Graduate '+cs+' and promote to Private ('+div+')?'))return;
+  showGradCard(cs,div,date);
+  try{await fsPatch('exam_submissions',id,{graduated:true,status:'approved'});await fsPatch('members',cs,{rank:'Private',academyRank:'Graduate',division:div,graduated:true});const card=document.getElementById('sc-'+id);if(card){card.style.opacity='0';setTimeout(()=>card.remove(),400);}}catch(e){alert('Error: '+e.message);}
+}
+async function failExam(btn){
+  const id=btn.dataset.id,cs=btn.dataset.cs,div=btn.dataset.div;
+  if(!confirm('Mark '+cs+' as not ready for graduation?'))return;
+  showFailCard(cs,div);
+  try{await fsPatch('exam_submissions',id,{status:'not_ready'});const card=document.getElementById('sc-'+id);if(card){card.style.opacity='0';setTimeout(()=>card.remove(),400);}}catch(e){alert('Error: '+e.message);}
+}
+
+function rgb(hex){return parseInt(hex.slice(1,3),16)+','+parseInt(hex.slice(3,5),16)+','+parseInt(hex.slice(5,7),16);}
+
+function showGradCard(cs,div,date){
+  const yr=new Date().getFullYear();
+  const col=DIV_COLORS[div]||'#9060ff';
+  const w=window.open('','_blank','width=720,height=700');
+  w.document.write('<!DOCTYPE html><html><head><title>RAM Graduation</title>'
+    +'<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>'
+    +'<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>'
+    +'<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#04070f;color:#e8f4ff;font-family:"Share Tech Mono",monospace;padding:40px;}'
+    +'#card{background:#04070f;background-image:linear-gradient(rgba(0,180,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,255,0.02) 1px,transparent 1px);background-size:40px 40px;border:1px solid rgba('+rgb('#9060ff')+',0.4);padding:36px;max-width:620px;margin:0 auto;position:relative;}'
+    +'#card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,'+col+',#9060ff,'+col+');}'
+    +'.tag{font-size:9px;letter-spacing:0.3em;color:#9060ff;text-transform:uppercase;margin-bottom:14px;}'
+    +'.title{font-family:"Barlow Condensed",sans-serif;font-size:56px;font-weight:900;text-transform:uppercase;color:#9060ff;line-height:0.9;margin-bottom:6px;}'
+    +'.sub{font-size:11px;color:#4a7aaa;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:28px;}'
+    +'.hr{height:1px;background:rgba('+rgb('#9060ff')+',0.25);margin:20px 0;}'
+    +'.grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:20px;}'
+    +'.field{background:#091220;border:1px solid rgba('+rgb('#9060ff')+',0.1);padding:14px 16px;}'
+    +'.fl{font-size:8px;letter-spacing:0.25em;color:#201a40;text-transform:uppercase;margin-bottom:5px;}'
+    +'.fv{font-size:15px;color:#e8f4ff;} .p{color:#9060ff;} .c{color:#00c8ff;} .g{color:#1fc8a0;} .d{color:'+col+';}'
+    +'.seal{text-align:center;padding:22px;background:#060c18;border:1px solid rgba('+rgb('#9060ff')+',0.15);margin-bottom:20px;}'
+    +'.si{font-size:36px;margin-bottom:8px;} .st{font-size:10px;letter-spacing:0.18em;color:#150a30;text-transform:uppercase;line-height:2;}'
+    +'.fb{display:flex;justify-content:space-between;} .ft{font-size:9px;color:#0a0520;letter-spacing:0.15em;text-transform:uppercase;}'
+    +'.bw{max-width:620px;margin:20px auto 0;display:flex;gap:10px;}'
+    +'.btn{border:none;font-family:"Share Tech Mono",monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:11px 20px;cursor:pointer;flex:1;}'
+    +'.bc{background:#9060ff;color:#e8f4ff;} .bd{background:#00c8ff;color:#04070f;}'
+    +'.db{max-width:620px;margin:16px auto 0;background:#060c18;border-left:4px solid #9060ff;padding:20px;}'
+    +'.dl{font-size:9px;letter-spacing:0.2em;color:#9060ff;text-transform:uppercase;margin-bottom:12px;}'
+    +'.dm{font-size:12px;color:#8ab8d8;line-height:2;white-space:pre-line;}'
+    +'</style></head><body>'
+    +'<div id="card">'
+    +'<div class="tag">&#11041; RAM Space Industries &#xB7; Second Fleet Academy &#xB7; Official Graduation Record</div>'
+    +'<div class="title">Academy<br>Graduate</div>'
+    +'<div class="sub">Cadet to Graduate &#xB7; Final Examination Passed &#xB7; Promoted to Private</div>'
+    +'<div class="hr"></div>'
+    +'<div class="grid">'
+    +'<div class="field"><div class="fl">Callsign</div><div class="fv c">'+cs+'</div></div>'
+    +'<div class="field"><div class="fl">New Rank</div><div class="fv g">&#9001; Private</div></div>'
+    +'<div class="field"><div class="fl">Primary Division</div><div class="fv d">'+div+'</div></div>'
+    +'<div class="field"><div class="fl">Academy Status</div><div class="fv p">Graduate</div></div>'
+    +'<div class="field"><div class="fl">Graduation Date</div><div class="fv" style="font-size:12px;">'+date+'</div></div>'
+    +'<div class="field"><div class="fl">Approved By</div><div class="fv" style="font-size:12px;">CAPTAINRAM - Admiral</div></div>'
+    +'</div>'
+    +'<div class="seal"><div class="si">&#11041;</div>'
+    +'<div class="st">This document certifies that the above Cadet has successfully completed<br>all Academy requirements and passed the final Cadet to Graduate examination.<br>By order of the Admiral they are hereby promoted to Private<br>in the '+div+' Division of RAM Space Industries.<br>Second Fleet Academy &#xB7; Founded in the Verse</div></div>'
+    +'<div class="fb"><div class="ft">Second Fleet Academy &#xB7; '+yr+'</div><div class="ft">RHL-ACM-2956-C2G</div></div>'
+    +'</div>'
+    +'<div class="bw">'
+    +'<button class="btn bc" id="bcp" onclick="cp()">Copy Discord Message</button>'
+    +'<button class="btn bd" id="bdl" onclick="dl()">Download Graduation Card PNG</button>'
+    +'</div>'
+    +'<div class="db"><div class="dl">Discord Graduation Announcement</div>'
+    +'<div class="dm" id="dm">RAM SPACE INDUSTRIES - ACADEMY GRADUATION NOTICE\n\n'
+    +'&#11041; GRADUATE PROMOTED TO PRIVATE &#11041;\n\n'
+    +'Callsign: '+cs+'\n'
+    +'New Rank: Private\n'
+    +'Division: '+div+'\n'
+    +'Graduation Date: '+date+'\n'
+    +'Approved By: CAPTAINRAM - Admiral\n\n'
+    +cs+', you have successfully completed the RAM Space Industries Second Fleet Academy. '
+    +'You have passed the final Cadet to Graduate examination and are hereby promoted to Private in the '+div+' Division.\n\n'
+    +'Your Academy training is complete. What you do with it now is up to you.\n\n'
+    +'Welcome to the fleet, Private.\n\n'
+    +'RAM Space Industries - Founded in the Verse\n'
+    +'RHL-ACM-2956-C2G</div></div>'
+    +'<script>function cp(){navigator.clipboard.writeText(document.getElementById("dm").innerText).then(()=>{document.getElementById("bcp").textContent="Copied!";setTimeout(()=>document.getElementById("bcp").textContent="Copy Discord Message",2000);});}function dl(){const b=document.getElementById("bdl");b.textContent="Generating...";b.disabled=true;html2canvas(document.getElementById("card"),{backgroundColor:"#04070f",scale:2,useCORS:true,logging:false}).then(c=>{const a=document.createElement("a");a.download="RAM-Graduation-'+cs+'-Private.png";a.href=c.toDataURL("image/png");a.click();b.textContent="Downloaded!";b.disabled=false;setTimeout(()=>b.textContent="Download Graduation Card PNG",2000);});}<\/script></body></html>');
+  w.document.close();
+}
+
+function showFailCard(cs,div){
+  const yr=new Date().getFullYear();
+  const w=window.open('','_blank','width=720,height=480');
+  w.document.write('<!DOCTYPE html><html><head><title>RAM Result</title>'
+    +'<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>'
+    +'<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#04070f;color:#e8f4ff;font-family:"Share Tech Mono",monospace;padding:40px;}'
+    +'#card{background:#04070f;border:1px solid rgba(232,64,64,0.25);padding:36px;max-width:620px;margin:0 auto;position:relative;}'
+    +'#card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:#e84040;}'
+    +'.tag{font-size:9px;letter-spacing:0.3em;color:#e84040;text-transform:uppercase;margin-bottom:14px;}'
+    +'.title{font-family:"Barlow Condensed",sans-serif;font-size:52px;font-weight:700;text-transform:uppercase;color:#e84040;line-height:1;margin-bottom:6px;}'
+    +'.sub{font-size:11px;color:#4a7aaa;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:28px;}'
+    +'.grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:20px;}'
+    +'.field{background:#091220;padding:14px 16px;} .fl{font-size:8px;letter-spacing:0.25em;color:#3a1a1a;text-transform:uppercase;margin-bottom:5px;}'
+    +'.fv{font-size:15px;color:#e8f4ff;} .r{color:#e84040;} .c{color:#00c8ff;}'
+    +'.seal{text-align:center;padding:20px;background:#060c18;margin-bottom:20px;}'
+    +'.si{font-size:32px;margin-bottom:8px;} .st{font-size:10px;letter-spacing:0.18em;color:#3a1010;text-transform:uppercase;line-height:2;}'
+    +'.fb{display:flex;justify-content:space-between;} .ft{font-size:9px;color:#2a1010;letter-spacing:0.15em;text-transform:uppercase;}'
+    +'.bw{max-width:620px;margin:20px auto 0;}'
+    +'.btn{border:none;font-family:"Share Tech Mono",monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;padding:11px 20px;cursor:pointer;width:100%;background:#e84040;color:#04070f;}'
+    +'.db{max-width:620px;margin:16px auto 0;background:#060c18;border-left:3px solid #e84040;padding:20px;}'
+    +'.dl{font-size:9px;letter-spacing:0.2em;color:#e84040;text-transform:uppercase;margin-bottom:12px;}'
+    +'.dm{font-size:12px;color:#8ab8d8;line-height:2;white-space:pre-line;}'
+    +'</style></head><body>'
+    +'<div id="card">'
+    +'<div class="tag">&#11041; RAM Space Industries &#xB7; Second Fleet Academy &#xB7; Official Record</div>'
+    +'<div class="title">Not Yet<br>Ready</div>'
+    +'<div class="sub">Cadet to Graduate &#xB7; Final Examination &#xB7; Review Required</div>'
+    +'<div class="grid">'
+    +'<div class="field"><div class="fl">Callsign</div><div class="fv c">'+cs+'</div></div>'
+    +'<div class="field"><div class="fl">Division</div><div class="fv" style="color:#9060ff;">'+div+'</div></div>'
+    +'<div class="field"><div class="fl">Result</div><div class="fv r">Not Yet Ready</div></div>'
+    +'<div class="field"><div class="fl">Reviewed By</div><div class="fv" style="font-size:12px;">CAPTAINRAM - Admiral</div></div>'
+    +'</div>'
+    +'<div class="seal"><div class="si">&#11041;</div>'
+    +'<div class="st">Speak to your Instructor and continue your training.<br>When you are ready the Admiral will review your record again.<br>RAM Space Industries &#xB7; Founded in the Verse</div></div>'
+    +'<div class="fb"><div class="ft">Second Fleet Academy &#xB7; '+yr+'</div><div class="ft">RHL-ACM-2956-C2G</div></div>'
+    +'</div>'
+    +'<div class="bw"><button class="btn" id="bcp" onclick="cp()">Copy Discord Message</button></div>'
+    +'<div class="db"><div class="dl">Discord Message</div>'
+    +'<div class="dm" id="dm">RAM SPACE INDUSTRIES - ACADEMY RESULT\n\nCallsign: '+cs+'\nExam: Cadet to Graduate - Final\nResult: NOT YET READY\nReviewed By: CAPTAINRAM - Admiral\n\n'+cs+', your final examination has been reviewed by the Admiral. At this time the standard required for graduation has not been met.\n\nThis is not the end. Speak to your Instructor, continue your training, and work on the areas that need improvement. When you are ready the Admiral will review your record again.\n\nRAM Space Industries - Founded in the Verse\nRHL-ACM-2956-C2G</div></div>'
+    +'<script>function cp(){navigator.clipboard.writeText(document.getElementById("dm").innerText).then(()=>{document.getElementById("bcp").textContent="Copied!";setTimeout(()=>document.getElementById("bcp").textContent="Copy Discord Message",2000);});}<\/script></body></html>');
+  w.document.close();
+}
+</script>
+</body>
+</html>
