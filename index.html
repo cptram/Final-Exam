@@ -331,7 +331,8 @@ function renderQ(idx){
   const nextLabel=isLast?(phase==='general'?'Complete Part 1 &#8594;':'Review All &#8594;'):'Next &#8594;';
   let html='';
   if(q.type==='mc'||q.type==='gk'){
-    const saved=answers[q.id]!==undefined?answers[q.id].answer:null;
+    const key=(phase==='general'?'gen_':'div_')+q.id;
+    const saved=answers[key]!==undefined?answers[key].answer:null;
     const label=q.type==='gk'?'Game Knowledge':'Multiple Choice';
     const cls=q.type==='gk'?'gk':'mc';
     html='<div class="question-block active"><div class="q-number">'+partLabel+' · Question '+(idx+1)+' of '+totalQ+'</div>'
@@ -344,7 +345,8 @@ function renderQ(idx){
       +'<button class="btn-next" id="bn-'+idx+'" onclick="goQ('+(idx+1)+')" '+(saved===null?'disabled':'')+'>'+(isLast?nextLabel:'Next &#8594;')+'</button>'
       +'</div></div>';
   }else{
-    const saved=answers[q.id]!==undefined?answers[q.id].answer:'';
+    const key=(phase==='general'?'gen_':'div_')+q.id;
+    const saved=answers[key]!==undefined?answers[key].answer:'';
     const minLen=phase==='general'?50:30;
     html='<div class="question-block active"><div class="q-number">'+partLabel+' · Question '+(idx+1)+' of '+totalQ+'</div>'
       +'<div class="q-type-tag sc">Scenario</div><div class="q-text">'+q.text+'</div>'
@@ -360,8 +362,20 @@ function renderQ(idx){
   document.getElementById('exam').innerHTML=html;
 }
 
-function pick(qi,oi){const q=QUESTIONS[qi];answers[q.id]={type:q.type,answer:oi,answerText:q.options[oi],correct:oi===q.correct};document.querySelectorAll('#opts-'+qi+' .option').forEach((el,i)=>el.classList.toggle('selected',i===oi));document.getElementById('bn-'+qi).disabled=false;}
-function onSC(qi,el,minLen){const q=QUESTIONS[qi];answers[q.id]={type:'scenario',answer:el.value,correct:null};document.getElementById('cc-'+qi).textContent=el.value.length+' / 1500 — minimum '+minLen+' characters';document.getElementById('bns-'+qi).disabled=el.value.length<minLen;}
+function pick(qi,oi){
+  const q=QUESTIONS[qi];
+  const key=(phase==='general'?'gen_':'div_')+q.id;
+  answers[key]={type:q.type,answer:oi,answerText:q.options[oi],correct:oi===q.correct};
+  document.querySelectorAll('#opts-'+qi+' .option').forEach((el,i)=>el.classList.toggle('selected',i===oi));
+  document.getElementById('bn-'+qi).disabled=false;
+}
+function onSC(qi,el,minLen){
+  const q=QUESTIONS[qi];
+  const key=(phase==='general'?'gen_':'div_')+q.id;
+  answers[key]={type:'scenario',answer:el.value,correct:null};
+  document.getElementById('cc-'+qi).textContent=el.value.length+' / 1500 — minimum '+minLen+' characters';
+  document.getElementById('bns-'+qi).disabled=el.value.length<minLen;
+}
 
 function goQ(idx){
   if(idx<0||idx>QUESTIONS.length)return;
@@ -399,7 +413,8 @@ function showReview(){
   // Part 1
   html+='<div style="font-size:9px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;padding:12px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px;">Part 1 — General Exam</div>';
   GEN_QUESTIONS.forEach((q,idx)=>{
-    const ans=allA[q.id];let disp='',cls='';
+    const key='gen_'+q.id;
+    const ans=allA[key];let disp='',cls='';
     if(!ans||ans.answer===undefined||ans.answer===null)disp='<span style="color:var(--red)">Not answered</span>';
     else if(q.type==='scenario'){disp=ans.answer||'No response';cls='sc-ans';}
     else disp=String.fromCharCode(65+ans.answer)+'. '+(ans.answerText||'');
@@ -412,7 +427,8 @@ function showReview(){
   const divQ=DIV_QUESTIONS[selectedDiv]||[];
   html+='<div style="font-size:9px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;padding:12px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px;margin-top:8px;">Part 2 — '+selectedDiv+' Division Exam</div>';
   divQ.forEach((q,idx)=>{
-    const ans=allA[q.id];let disp='',cls='';
+    const key='div_'+q.id;
+    const ans=allA[key];let disp='',cls='';
     if(!ans||ans.answer===undefined||ans.answer===null)disp='<span style="color:var(--red)">Not answered</span>';
     else if(q.type==='scenario'){disp=ans.answer||'No response';cls='sc-ans';}
     else disp=String.fromCharCode(65+ans.answer)+'. '+(ans.answerText||'');
@@ -424,7 +440,8 @@ function showReview(){
   const allA2=Object.assign({},genAnswers,divAnswers);
   const allQFull=[...GEN_QUESTIONS,...divQ];
   const ok=allQFull.every(q=>{
-    const a=allA2[q.id];
+    const prefix=GEN_QUESTIONS.includes(q)?'gen_':'div_';
+    const a=allA2[prefix+q.id];
     if(!a) return false;
     if(q.type==='scenario'||q.type==='command'){
       const txt=a.answer||'';
@@ -460,19 +477,25 @@ async function submitAll(){
   const allA=Object.assign({},genAnswers,divAnswers);
   const allQ=[...GEN_QUESTIONS,...(DIV_QUESTIONS[selectedDiv]||[])];
   const gradable=allQ.filter(q=>q.type==='mc'||q.type==='gk');
-  const correct=gradable.filter(q=>allA[q.id]&&allA[q.id].correct).length;
+  const correct=gradable.filter(q=>{
+    const prefix=GEN_QUESTIONS.includes(q)?'gen_':'div_';
+    return allA[prefix+q.id]&&allA[prefix+q.id].correct;
+  }).length;
 
-  // Trim answers to avoid Firestore size limits on large scenario responses
-  const answersArr = allQ.map(q=>({
-    id:q.id,
-    part:GEN_QUESTIONS.includes(q)?'General':selectedDiv,
-    question:q.text.substring(0,200),
-    type:q.type,
-    answerText:allA[q.id]?(q.type==='scenario'?
-      (allA[q.id].answer||'').substring(0,800):
-      allA[q.id].answerText):null,
-    correct:allA[q.id]?allA[q.id].correct:null
-  }));
+  const answersArr = allQ.map(q=>{
+    const prefix=GEN_QUESTIONS.includes(q)?'gen_':'div_';
+    const a=allA[prefix+q.id];
+    return {
+      id:q.id,
+      part:GEN_QUESTIONS.includes(q)?'General':selectedDiv,
+      question:q.text.substring(0,200),
+      type:q.type,
+      answerText:a?(q.type==='scenario'?
+        (a.answer||'').substring(0,800):
+        a.answerText):null,
+      correct:a?a.correct:null
+    };
+  });
 
   const data={
     callsign,
