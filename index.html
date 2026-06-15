@@ -400,9 +400,9 @@ function showReview(){
   html+='<div style="font-size:9px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;padding:12px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px;">Part 1 — General Exam</div>';
   GEN_QUESTIONS.forEach((q,idx)=>{
     const ans=allA[q.id];let disp='',cls='';
-    if(!ans)disp='<span style="color:var(--red)">Not answered</span>';
+    if(!ans||ans.answer===undefined||ans.answer===null)disp='<span style="color:var(--red)">Not answered</span>';
     else if(q.type==='scenario'){disp=ans.answer||'No response';cls='sc-ans';}
-    else disp=String.fromCharCode(65+ans.answer)+'. '+ans.answerText;
+    else disp=String.fromCharCode(65+ans.answer)+'. '+(ans.answerText||'');
     const edit=q.type==='scenario'?'<button class="btn-nav" style="margin-top:8px;font-size:10px;" onclick="editGenQ('+idx+')">&#9999; Edit</button>':'<div style="font-size:10px;color:var(--text4);margin-top:6px;">MC cannot be changed.</div>';
     html+='<div class="review-item"><div class="review-q">P1 Q'+(idx+1)+' · '+(q.type==='gk'?'Game Knowledge':q.type==='mc'?'Multiple Choice':'Scenario')+'</div>'
       +'<div class="review-question">'+q.text+'</div><div class="review-answer '+cls+'">'+disp+'</div>'+edit+'</div>';
@@ -413,9 +413,9 @@ function showReview(){
   html+='<div style="font-size:9px;letter-spacing:0.2em;color:var(--text3);text-transform:uppercase;padding:12px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px;margin-top:8px;">Part 2 — '+selectedDiv+' Division Exam</div>';
   divQ.forEach((q,idx)=>{
     const ans=allA[q.id];let disp='',cls='';
-    if(!ans)disp='<span style="color:var(--red)">Not answered</span>';
+    if(!ans||ans.answer===undefined||ans.answer===null)disp='<span style="color:var(--red)">Not answered</span>';
     else if(q.type==='scenario'){disp=ans.answer||'No response';cls='sc-ans';}
-    else disp=String.fromCharCode(65+ans.answer)+'. '+ans.answerText;
+    else disp=String.fromCharCode(65+ans.answer)+'. '+(ans.answerText||'');
     const edit=q.type==='scenario'?'<button class="btn-nav" style="margin-top:8px;font-size:10px;" onclick="editDivQ('+idx+')">&#9999; Edit</button>':'<div style="font-size:10px;color:var(--text4);margin-top:6px;">MC cannot be changed.</div>';
     html+='<div class="review-item"><div class="review-q">P2 Q'+(idx+1)+' · '+(q.type==='gk'?'Game Knowledge':q.type==='mc'?'Multiple Choice':'Scenario')+'</div>'
       +'<div class="review-question">'+q.text+'</div><div class="review-answer '+cls+'">'+disp+'</div>'+edit+'</div>';
@@ -423,7 +423,15 @@ function showReview(){
 
   const allA2=Object.assign({},genAnswers,divAnswers);
   const allQFull=[...GEN_QUESTIONS,...divQ];
-  const ok=allQFull.every(q=>allA2[q.id]&&(q.type==='scenario'?allA2[q.id].answer.length>=(GEN_QUESTIONS.includes(q)?50:30):true));
+  const ok=allQFull.every(q=>{
+    const a=allA2[q.id];
+    if(!a) return false;
+    if(q.type==='scenario'||q.type==='command'){
+      const txt=a.answer||'';
+      return txt.length>=(GEN_QUESTIONS.includes(q)?50:30);
+    }
+    return a.answer!==undefined && a.answer!==null;
+  });
   html+='<button class="btn-submit" id="btn-sub" onclick="submitAll()" '+(ok?'':'disabled')+'>'+(ok?'&#11041; Submit Final Exam to Admiral &#8594;':'&#9888; Answer All Questions Before Submitting')+'</button>';
   el.innerHTML=html;
 }
